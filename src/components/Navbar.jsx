@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <nav style={{ padding: "10px", backgroundColor: "#333", color: "white" }}>
+    <nav style={{ padding: "10px", color: "black" }}>
       <Link
         to="/home"
-        style={{ marginRight: "20px", color: "white", textDecoration: "none" }}
+        style={{ marginRight: "20px", color: "black", textDecoration: "none" }}
       >
         Home
       </Link>
-      <Link to="/cart" style={{ color: "white", textDecoration: "none" }}>
+      <Link to="/cart" style={{ color: "black", textDecoration: "none" }}>
         Cart
       </Link>
     </nav>
