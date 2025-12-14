@@ -2,9 +2,18 @@ import axios from "axios";
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import React from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { LoginSchema } from "../../validation/LoginValidation";
 
 export default function Login() {
-  const { register, handleSubmit } = useForm({});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(LoginSchema),
+    mode: "onBlur",
+  });
   const loginForm = async (values) => {
     console.log(values);
     try {
@@ -12,7 +21,10 @@ export default function Login() {
         `https://knowledgeshop.runasp.net/api/Auth/Account/Login`,
         values
       );
-      console.log(res);
+      if (res.status === 200) {
+        console.log(res);
+        localStorage.setItem("token", res.data.accessToken);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -40,6 +52,8 @@ export default function Login() {
           name="email"
           fullWidth
           variant="outlined"
+          error={!!errors.email}
+          helperText={errors.email?.message}
         />
         <TextField
           {...register("password")}
@@ -47,8 +61,10 @@ export default function Login() {
           name="password"
           fullWidth
           variant="outlined"
+          error={!!errors.password}
+          helperText={errors.password?.message}
         />
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" disabled={isSubmitting}>
           Log in
         </Button>
       </Box>
