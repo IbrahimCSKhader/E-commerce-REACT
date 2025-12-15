@@ -1,9 +1,11 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import axios from "axios";
+// import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from "../../validation/RegisterSchema";
 import React, { useState } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
+import axiosinstance from "../../API/axiosInsrance";
 
 export default function Register() {
   const [serverErrors, setServerErrors] = useState([]);
@@ -19,8 +21,8 @@ const {
   const registerForm = async (values) => {
     console.log(values);
     try {
-      const response = await axios.post(
-        "https://knowledgeshop.runasp.net/api/Auth/Account/Register",
+      const response = await axiosinstance.post(
+        `/Auth/Account/Register`,
         values
       );
       console.log(response.data);
@@ -89,7 +91,7 @@ const {
         />
 
         <Button variant="contained" type="submit" disabled={isSubmitting}>
-          Register
+          {isSubmitting ? <CircularProgress></CircularProgress>: "Register"}
         </Button>
       </Box>
     </Box>
