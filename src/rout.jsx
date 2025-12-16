@@ -6,6 +6,9 @@ import AuthLayout from "./layout/AuthLayout";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Categories from "./components/Categories/Categories";
+import ForgotPassword from "./pages/ForgetPassword/ForgetPassword"
+import ResetPassword from "./pages/ForgetPassword/ResetPassword"
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,7 +37,7 @@ const router = createBrowserRouter([
       {
         path: "categories",
         element: <Categories />,
-      }
+      },
     ],
   },
   {
@@ -48,6 +51,14 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
       },
     ],
   },

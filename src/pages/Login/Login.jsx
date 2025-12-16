@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from "../../validation/LoginValidation";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function Login() {
   const {
@@ -67,6 +68,11 @@ export default function Login() {
         <Button variant="contained" type="submit" disabled={isSubmitting}>
           Log in
         </Button>
+        <Typography variant="body2">
+          <Link component={RouterLink} to="/auth/forgot-password">
+            Forgot password?
+          </Link>
+        </Typography>
       </Box>
     </Box>
   );
