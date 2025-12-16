@@ -10,34 +10,56 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
-import { LoginSchema } from "../../validation/LoginValidation";
+import * as yup from "yup";
 
-export default function ForgetPassword() {
+const ResetSchema = yup
+  .object({
+    code: yup.string().required("Reset code is required"),
+    password: yup
+      .string()
+      .required("Password Is Required")
+      .min(8, "password must be at least 8 characters")
+      .matches(/[A-Z]/, "Must contain at least one uppercase letter")
+      .matches(/[a-z]/, "Must contain at least one lowercase letter")
+      .matches(/\d/, "Must contain at least one number")
+      .matches(/[@$!%*?&]/, "Must contain at least one special character"),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Passwords must match")
+      .required("Confirm Password Is Required"),
+  })
+  .required();
+
+export default function ResetPassword() {
   const navigate = useNavigate();
-
-  // نستخدم نفس validation تبع الإيميل
-  const ForgotPasswordSchema = LoginSchema.pick(["email"]);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: yupResolver(ForgotPasswordSchema),
+    resolver: yupResolver(ResetSchema),
   });
 
   const onSubmit = async (values) => {
     try {
-      await axiosInstance.post("Auth/Account/SendCode", {
-        email: values.email,
+      const email = localStorage.getItem("emailForReset");
+      if (!email) {
+        console.error("No email found for reset in localStorage");
+        navigate("/Auth/forgot-password");
+        return;
+      }
+
+      await axiosInstance.post("/auth/Account/ResetPassword", {
+        email,
+        code: values.code,
+        newPassword: values.password,
       });
 
-      localStorage.setItem("emailForReset", values.email);
-
-      // ❗ مهم: lowercase
-      navigate("/auth/reset-password");
+      // on success, navigate to login
+      navigate("/Auth/login");
     } catch (error) {
-      console.error("Error sending reset email", error);
+      console.error("Error resetting password", error);
     }
   };
 
@@ -55,15 +77,33 @@ export default function ForgetPassword() {
       }}
     >
       <Typography variant="h5" textAlign="center">
-        Forgot Password
+        Reset Password
       </Typography>
 
       <TextField
-        label="Email"
+        label="Reset Code"
         fullWidth
-        {...register("email")}
-        error={!!errors.email}
-        helperText={errors.email?.message}
+        {...register("code")}
+        error={!!errors.code}
+        helperText={errors.code?.message}
+      />
+
+      <TextField
+        label="New Password"
+        type="password"
+        fullWidth
+        {...register("password")}
+        error={!!errors.password}
+        helperText={errors.password?.message}
+      />
+
+      <TextField
+        label="Confirm Password"
+        type="password"
+        fullWidth
+        {...register("confirmPassword")}
+        error={!!errors.confirmPassword}
+        helperText={errors.confirmPassword?.message}
       />
 
       <Button
@@ -75,7 +115,7 @@ export default function ForgetPassword() {
         {isSubmitting ? (
           <CircularProgress size={24} color="inherit" />
         ) : (
-          "Send Reset Code"
+          "Reset Password"
         )}
       </Button>
     </Box>
