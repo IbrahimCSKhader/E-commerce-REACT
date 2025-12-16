@@ -78,8 +78,16 @@ export default function Navbar() {
 >
   Login
 </Link>            
+<Link
+  component={RouterLink}
+  to="/categories"
+  color="inherit"
+  underline="none"
+  sx={{ mx: 1 }}
+>
+  Categories
+</Link>            
           </Box>
-          {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>
     </Box>

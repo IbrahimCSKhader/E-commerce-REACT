@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from "../../validation/RegisterSchema";
 import React, { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import axiosinstance from "../../API/axiosInsrance";
+import axiosInstance from "../../API/axiosInstance";
 
 export default function Register() {
   const [serverErrors, setServerErrors] = useState([]);
@@ -21,7 +21,7 @@ const {
   const registerForm = async (values) => {
     console.log(values);
     try {
-      const response = await axiosinstance.post(
+      const response = await axiosInstance.post(
         `/Auth/Account/Register`,
         values
       );

@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../API/axiosInstance";
 import {
   Box,
   Typography,
@@ -9,47 +8,39 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
+import useQuery from "../../hooks/useCategories";
 
 export default function Categories() {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
   const fetchCategories = async () => {
-    try {
-      setLoading(true);
-      setError("");
-
-      const res = await axios.get(
-        "https://knowledgeshop.runasp.net/api/Categories"
-      );
-
-      setCategories(Array.isArray(res.data) ? res.data : []);
-    } catch (e) {
-      console.log(e);
-      setError("Failed to load categories");
-    } finally {
-      setLoading(false);
-    }
+    const res = await axiosInstance.get("/Categories");
+    return Array.isArray(res.data) ? res.data : [];
   };
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  const {
+    data: categories = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["categories"],
+    staleTime: 5 * 60 * 1000,
+    queryFn: fetchCategories,
+  });
 
-  if (loading)
+  if (isLoading) {
     return (
       <Box p={3} display="flex" justifyContent="center">
         <CircularProgress />
       </Box>
     );
+  }
 
-  if (error)
+  if (isError) {
     return (
       <Box p={3}>
-        <Alert severity="error">{error}</Alert>
+        <Alert severity="error">Failed to load categories</Alert>
       </Box>
     );
+  }
 
   return (
     <Box p={3}>
@@ -62,17 +53,18 @@ export default function Categories() {
       ) : (
         <Grid container spacing={2}>
           {categories.map((cat) => (
-            <Grid item xs={12} sm={6} md={4} key={cat.id ?? cat.categoryId ?? cat.name}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              key={cat.id ?? cat.categoryId ?? cat.name}
+            >
               <Card sx={{ height: "100%" }}>
                 <CardContent>
                   <Typography variant="h6">
                     {cat.name ?? cat.categoryName ?? "Unnamed Category"}
                   </Typography>
-
-                  {/* اختياري: اعرض أي بيانات إضافية */}
-                  {/* <Typography variant="body2" color="text.secondary">
-                    ID: {cat.id ?? cat.categoryId}
-                  </Typography> */}
                 </CardContent>
               </Card>
             </Grid>

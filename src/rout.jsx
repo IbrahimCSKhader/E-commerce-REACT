@@ -5,6 +5,7 @@ import MainLayout from "./layout/MainLayout";
 import AuthLayout from "./layout/AuthLayout";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import Categories from "./components/Categories/Categories";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
+      {
+        path: "categories",
+        element: <Categories />,
+      }
     ],
   },
   {
