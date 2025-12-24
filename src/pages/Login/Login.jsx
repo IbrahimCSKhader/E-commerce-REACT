@@ -1,12 +1,16 @@
 import axios from "axios";
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
-import React from "react";
+import React, { useContext } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from "../../validation/LoginValidation";
 import { Link as RouterLink } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import axiosInstance from "../../API/axiosInstance"
 export default function Login() {
+  const navigate = useNavigate();
+  const { setToken  } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -18,13 +22,11 @@ export default function Login() {
   const loginForm = async (values) => {
     console.log(values);
     try {
-      const res = await axios.post(
-        `https://knowledgeshop.runasp.net/api/Auth/Account/Login`,
-        values
-      );
+      const res = await axiosInstance.post("Auth/Account/Login", values);
       if (res.status === 200) {
         console.log(res);
-        localStorage.setItem("token", res.data.accessToken);
+      setToken(res.data.accessToken);
+        navigate("/Home");
       }
     } catch (error) {
       console.log(error);

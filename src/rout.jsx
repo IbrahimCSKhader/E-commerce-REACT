@@ -8,11 +8,14 @@ import Register from "./pages/Register/Register";
 import Categories from "./components/Categories/Categories";
 import ForgotPassword from "./pages/ForgetPassword/ForgetPassword"
 import ResetPassword from "./pages/ForgetPassword/ResetPassword"
-
+import UserContextProvider from "./context/UserContext.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />,
+    element:
+    <UserContextProvider>
+     <MainLayout /> 
+    </UserContextProvider>, 
     children: [
       {
         index: true,
@@ -24,7 +27,8 @@ const router = createBrowserRouter([
       },
       {
         path: "cart",
-        element: <Cart />,
+        element:
+          <Cart />,
       },
       {
         path: "register",

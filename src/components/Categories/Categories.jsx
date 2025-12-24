@@ -1,4 +1,3 @@
-import axiosInstance from "../../API/axiosInstance";
 import {
   Box,
   Typography,
@@ -8,23 +7,17 @@ import {
   CircularProgress,
   Alert,
 } from "@mui/material";
-import useQuery from "../../hooks/useCategories";
+import useCategories from "../../hooks/useCategories";
 
 export default function Categories() {
-  const fetchCategories = async () => {
-    const res = await axiosInstance.get("/Categories");
-    return Array.isArray(res.data) ? res.data : [];
-  };
+  console.log("Categories Component Rendered");
+
 
   const {
     data: categories = [],
     isLoading,
     isError,
-  } = useQuery({
-    queryKey: ["categories"],
-    staleTime: 5 * 60 * 1000,
-    queryFn: fetchCategories,
-  });
+  } = useCategories();
 
   if (isLoading) {
     return (
@@ -45,7 +38,7 @@ export default function Categories() {
   return (
     <Box p={3}>
       <Typography variant="h4" fontWeight="bold" mb={3}>
-        Categories
+        Categories 
       </Typography>
 
       {categories.length === 0 ? (
@@ -53,17 +46,11 @@ export default function Categories() {
       ) : (
         <Grid container spacing={2}>
           {categories.map((cat) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              key={cat.id ?? cat.categoryId ?? cat.name}
-            >
+            <Grid item xs={12} sm={6} md={4} key={cat.id}>
               <Card sx={{ height: "100%" }}>
                 <CardContent>
                   <Typography variant="h6">
-                    {cat.name ?? cat.categoryName ?? "Unnamed Category"}
+                    {cat.name}
                   </Typography>
                 </CardContent>
               </Card>
