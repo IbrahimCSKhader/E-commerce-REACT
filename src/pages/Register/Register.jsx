@@ -3,33 +3,41 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from "../../validation/RegisterSchema";
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import axiosInstance from "../../API/axiosInstance";
-
+// import axiosInstance from "../../API/axiosInstance";
+// import { useMutation } from "@tanstack/react-query";
+// import { useNavigate } from "react-router-dom";
+import useRegister from "../../hooks/useRegister";
 export default function Register() {
-  const [serverErrors, setServerErrors] = useState([]);
-const {
-  register,
-  handleSubmit,
-  formState: { errors, isSubmitting },
-} = useForm({
-  resolver: yupResolver(RegisterSchema),
-  mode: "onBlur",
-});
+  const { serverErrors, registerFormMutation } = useRegister();
+  // const navigate = useNavigate();
+  // const [serverErrors, setServerErrors] = useState([]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(RegisterSchema),
+    mode: "onBlur",
+  });
+  // const registerFormMutation = useMutation({
+  //   mutationFn: async (values) =>
+  //     await axiosInstance.post("/Auth/Account/Register", values),
 
+  //   onSuccess: () => {
+  //     navigate("/login");
+  //   },
+
+  //   onError: (err) => {
+  //     console.log(err.response?.data);
+  //     setServerErrors(
+  //       err?.response?.data?.errors || ["Registration failed"]
+  //     );
+  //   },
+  // });
   const registerForm = async (values) => {
-    console.log(values);
-    try {
-      const response = await axiosInstance.post(
-        `/Auth/Account/Register`,
-        values
-      );
-      console.log(response.data);
-    } catch (err) {
-      console.log(err?.response?.data || err.message);
-      setServerErrors(err?.response?.data.errors || ["An unexpected error occurred."]);
-    }
+    await registerFormMutation.mutateAsync(values);
   };
 
   return (
@@ -37,13 +45,13 @@ const {
       <Typography variant="h4" mb={2}>
         Register
       </Typography>
-    {serverErrors.length > 0  ?
-       serverErrors.map((error, index) => (
-        <Typography variant="h5"  key={index} color="error">
-          {error}
-        </Typography>
-      )) 
-      : null}
+      {serverErrors.length > 0
+        ? serverErrors.map((error, index) => (
+            <Typography variant="h5" key={index} color="error">
+              {error}
+            </Typography>
+          ))
+        : null}
       <Box
         component="form"
         onSubmit={handleSubmit(registerForm)}
@@ -91,7 +99,7 @@ const {
         />
 
         <Button variant="contained" type="submit" disabled={isSubmitting}>
-          {isSubmitting ? <CircularProgress></CircularProgress>: "Register"}
+          {isSubmitting ? <CircularProgress></CircularProgress> : "Register"}
         </Button>
       </Box>
     </Box>
