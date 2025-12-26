@@ -1,16 +1,12 @@
-import axios from "axios";
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
-import React, { useContext } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from "../../validation/LoginValidation";
 import { Link as RouterLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
-import axiosInstance from "../../API/axiosInstance"
+import useLogin from "../../hooks/useLogin";
+
 export default function Login() {
-  const navigate = useNavigate();
-  const { setToken  } = useContext(AuthContext);
+  const { loginMutation } = useLogin();
   const {
     register,
     handleSubmit,
@@ -20,17 +16,7 @@ export default function Login() {
     mode: "onBlur",
   });
   const loginForm = async (values) => {
-    console.log(values);
-    try {
-      const res = await axiosInstance.post("Auth/Account/Login", values);
-      if (res.status === 200) {
-        console.log(res);
-      setToken(res.data.accessToken);
-        navigate("/Home");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    loginMutation.mutate(values);
   };
   return (
     <Box className="login-form">

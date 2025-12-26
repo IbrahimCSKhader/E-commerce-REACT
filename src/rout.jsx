@@ -13,9 +13,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element:
-    <UserContextProvider>
-     <MainLayout /> 
-    </UserContextProvider>, 
+     <MainLayout /> ,
     children: [
       {
         index: true,
@@ -30,14 +28,14 @@ const router = createBrowserRouter([
         element:
           <Cart />,
       },
-      {
-        path: "register",
-        element: <Register />,
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
+      // {
+      //   path: "register",
+      //   element: <Register />,
+      // },
+      // {
+      //   path: "login",
+      //   element: <Login />,
+      // },
       {
         path: "categories",
         element: <Categories />,

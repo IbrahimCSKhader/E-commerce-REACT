@@ -1,18 +1,12 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-// import axios from "axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from "../../validation/RegisterSchema";
-// import React, { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-// import axiosInstance from "../../API/axiosInstance";
-// import { useMutation } from "@tanstack/react-query";
-// import { useNavigate } from "react-router-dom";
 import useRegister from "../../hooks/useRegister";
 export default function Register() {
   const { serverErrors, registerFormMutation } = useRegister();
-  // const navigate = useNavigate();
-  // const [serverErrors, setServerErrors] = useState([]);
+  
   const {
     register,
     handleSubmit,
@@ -21,21 +15,6 @@ export default function Register() {
     resolver: yupResolver(RegisterSchema),
     mode: "onBlur",
   });
-  // const registerFormMutation = useMutation({
-  //   mutationFn: async (values) =>
-  //     await axiosInstance.post("/Auth/Account/Register", values),
-
-  //   onSuccess: () => {
-  //     navigate("/login");
-  //   },
-
-  //   onError: (err) => {
-  //     console.log(err.response?.data);
-  //     setServerErrors(
-  //       err?.response?.data?.errors || ["Registration failed"]
-  //     );
-  //   },
-  // });
   const registerForm = async (values) => {
     await registerFormMutation.mutateAsync(values);
   };
