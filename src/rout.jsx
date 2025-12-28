@@ -6,14 +6,15 @@ import AuthLayout from "./layout/AuthLayout";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Categories from "./components/Categories/Categories";
-import ForgotPassword from "./pages/ForgetPassword/ForgetPassword"
-import ResetPassword from "./pages/ForgetPassword/ResetPassword"
+import ForgotPassword from "./pages/ForgetPassword/ForgetPassword";
+import ResetPassword from "./pages/ForgetPassword/ResetPassword";
 import UserContextProvider from "./context/UserContext.jsx";
+import Products from "./pages/Products/Products.jsx";
+import ProductDetails from "./pages/Products/ProductDetails";
 const router = createBrowserRouter([
   {
     path: "/",
-    element:
-     <MainLayout /> ,
+    element: <MainLayout />,
     children: [
       {
         index: true,
@@ -25,8 +26,7 @@ const router = createBrowserRouter([
       },
       {
         path: "cart",
-        element:
-          <Cart />,
+        element: <Cart />,
       },
       // {
       //   path: "register",
@@ -39,6 +39,14 @@ const router = createBrowserRouter([
       {
         path: "categories",
         element: <Categories />,
+      },
+      {
+        path: "products",
+        element: <Products />,
+      },
+      {
+        path: "products/:id",
+        element: <ProductDetails />,
       },
     ],
   },

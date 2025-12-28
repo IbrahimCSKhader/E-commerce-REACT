@@ -8,7 +8,7 @@ return Array.isArray(res.data.response) ? res.data.response : [];
   }
   const query =  useQuery({
     queryKey: ["categories"],
-    staleTime: 1, 
+    staleTime: 5*60*100, 
     queryFn: fetchCategories,
   });
 
