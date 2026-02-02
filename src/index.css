@@ -1,4 +1,9 @@
-body{
-      background: #f2f3f5;
+@import "./styles/theme.css";
 
-}
+/* Base index styles are provided by the shared theme file */
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} 

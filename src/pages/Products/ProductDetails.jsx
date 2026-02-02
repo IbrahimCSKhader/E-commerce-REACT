@@ -35,14 +35,17 @@ export default function ProductDetails() {
     );
   }
 
+  if (!data) {
+    return (
+      <Box py={6} display="flex" justifyContent="center">
+        <Alert severity="info">Product not found.</Alert>
+      </Box>
+    );
+  }
+
   return (
     <Box px={{ xs: 2, md: 6 }} py={6}>
-      <Grid
-        container
-        spacing={6}
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Grid container spacing={6} justifyContent="center" alignItems="center">
         {/* IMAGE */}
         <Grid item xs={12} md={6} display="flex" justifyContent="center">
           <Box
@@ -57,8 +60,8 @@ export default function ProductDetails() {
           >
             <CardMedia
               component="img"
-              image={data.image}
-              alt={data.name}
+              image={data?.image ?? ""}
+              alt={data?.name ?? ""}
               sx={{
                 width: "100%",
                 height: 420,
@@ -68,7 +71,6 @@ export default function ProductDetails() {
           </Box>
         </Grid>
 
-        {/* INFO */}
         <Grid
           item
           xs={12}
@@ -79,22 +81,17 @@ export default function ProductDetails() {
           textAlign="center"
         >
           <Typography variant="h4" fontWeight={700}>
-            {data.name}
+            {data?.name ?? "—"}
           </Typography>
 
-          <Typography
-            variant="h5"
-            fontWeight={600}
-            color="success.main"
-            mt={1}
-          >
-            ${data.price}
+          <Typography variant="h5" fontWeight={600} color="success.main" mt={1}>
+            ${data?.price ?? "—"}
           </Typography>
 
           <Box display="flex" alignItems="center" gap={1} mt={1}>
-            <Rating value={data.rate} precision={0.5} readOnly />
+            <Rating value={data?.rate ?? 0} precision={0.5} readOnly />
             <Typography variant="body2" color="text.secondary">
-              ({data.rate})
+              ({data?.rate ?? 0})
             </Typography>
           </Box>
 
@@ -109,7 +106,6 @@ export default function ProductDetails() {
             {data.description}
           </Typography>
 
-          {/* ACTIONS */}
           <Box
             mt={4}
             display="flex"
@@ -117,11 +113,7 @@ export default function ProductDetails() {
             justifyContent="center"
             flexWrap="wrap"
           >
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ px: 4 }}
-            >
+            <Button variant="contained" size="large" sx={{ px: 4 }}>
               Add to Cart
             </Button>
 

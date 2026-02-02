@@ -7,16 +7,16 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 import router from "./rout.jsx";
-import  AuthContextProvider  from "./context/AuthContext.jsx";
+import AuthContextProvider from "./context/AuthContext.jsx";
 
 export default function App() {
   const queryClient = new QueryClient();
 
   return (
-<QueryClientProvider client={queryClient}>
-  <AuthContextProvider>
-    <RouterProvider router={router} />
-  </AuthContextProvider>
-</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthContextProvider>
+        <RouterProvider router={router} />
+      </AuthContextProvider>
+    </QueryClientProvider>
   );
 }

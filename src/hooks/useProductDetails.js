@@ -11,7 +11,7 @@ export default function useProductDetails(id) {
     queryKey: ["productsDetails",id],
     staleTime: 500000,
     queryFn: fetchProductDetails,
-        enabled: !!id,
+    enabled: !!id && id !== "undefined" && id !== "null",
   });
   return query;
 }

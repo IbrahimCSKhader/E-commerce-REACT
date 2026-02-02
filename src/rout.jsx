@@ -11,6 +11,8 @@ import ResetPassword from "./pages/ForgetPassword/ResetPassword";
 import UserContextProvider from "./context/UserContext.jsx";
 import Products from "./pages/Products/Products.jsx";
 import ProductDetails from "./pages/Products/ProductDetails";
+import CategoryProducts from "./pages/Products/CategoryProducts";
+import ProtectedRouter from "./protectedRouter.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,7 +28,12 @@ const router = createBrowserRouter([
       },
       {
         path: "cart",
-        element: <Cart />,
+
+        element: (
+          <ProtectedRouter>
+            <Cart />
+          </ProtectedRouter>
+        ),
       },
       // {
       //   path: "register",
@@ -43,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: <Products />,
+      },
+      {
+        path: "products/category/:categoryId",
+        element: <CategoryProducts />,
       },
       {
         path: "products/:id",
@@ -73,5 +84,4 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
 export default router;

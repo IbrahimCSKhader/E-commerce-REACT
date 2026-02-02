@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800;900&display=swap');
+
+:root {
+  --site-bg: #f4f6f8; /* light gray page background */
+  --nav-bg: #2A2C41; /* dark header */
+  --card-dark: #2E3046; /* product card dark */
+  --accent: #FF724C; /* hover/active */
+  --text-primary: #2A2C41; /* main text on light bg */
+  --text-inverted: #F4F4F8; /* text on dark surfaces */
+  --muted: rgba(42,44,65,0.12);
+  --transition: 200ms;
+}
+
+*, *::before, *::after {
+  transition: color var(--transition) ease, background-color var(--transition) ease, border-color var(--transition) ease, box-shadow var(--transition) ease, transform var(--transition) ease;
+}
+
+body {
+  background: var(--site-bg);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Links */
+a {
+  color: var(--text);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+a:hover { color: var(--accent); }
+
+/* Typography */
+.MuiTypography-root, p, span, label {
+  color: var(--text);
+}
+
+/* Cards & paper */
+.MuiPaper-root, .MuiCard-root {
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Buttons */
+.MuiButton-root {
+  color: var(--text);
+  border-radius: 999px;
+  transition: transform var(--transition), background-color var(--transition), color var(--transition);
+}
+
+.MuiButton-containedPrimary {
+  background-color: var(--accent);
+  color: var(--text);
+}
+.MuiButton-containedPrimary:hover {
+  background-color: #e3623f; /* slightly darker */
+  box-shadow: 0 8px 20px rgba(255,114,76,0.12);
+  transform: translateY(-2px);
+}
+
+.MuiButton-outlinedPrimary {
+  border-color: rgba(255,255,255,0.08);
+}
+.MuiButton-outlinedPrimary:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,114,76,0.04); }
+
+/* Card hover */
+.MuiCardActionArea-root:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Muted text */
+.muted { color: var(--muted); }
+
+/* Focus ring */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255,114,76,0.12);
+}
+
+/* Utilities */
+.text-accent { color: var(--accent) !important; }
+.bg-accent { background-color: var(--accent) !important; color: var(--text) !important; }
+.border-accent { border-color: var(--accent) !important; }
