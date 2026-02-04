@@ -35,7 +35,8 @@ export default function CategoryProducts() {
 
   return (
     <Box p={3}>
-      <Typography variant="h4" mb={2} sx={{ fontWeight: 'bold' }}>
+      ddddd
+      <Typography variant="h4" mb={2} sx={{ fontWeight: "bold" }}>
         {categoryName ? categoryName : `Category ${categoryId}`}
       </Typography>
       <Grid container justifyContent="center" spacing={3}>

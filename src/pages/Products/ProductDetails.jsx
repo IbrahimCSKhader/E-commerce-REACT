@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useProductDetails from "../../hooks/useProductDetails";
-
+import useAddToCart from "../../hooks/useAddToCart";
 import {
   Box,
   Grid,
@@ -18,7 +18,7 @@ export default function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data, isLoading, isError } = useProductDetails(id);
-
+  const { mutate: addToCart, isPending } = useAddToCart();
   if (isLoading) {
     return (
       <Box py={6} display="flex" justifyContent="center">
@@ -113,7 +113,25 @@ export default function ProductDetails() {
             justifyContent="center"
             flexWrap="wrap"
           >
-            <Button variant="contained" size="large" sx={{ px: 4 }}>
+            <Button
+              onClick={() =>
+                addToCart(
+                  { productId: data.id, Count: 1 },
+                  {
+                    onSuccess: (res) =>
+                      console.log("Add to cart success:", res?.data ?? res),
+                    onError: (err) =>
+                      console.error(
+                        "Add to cart error:",
+                        err?.response?.data ?? err,
+                      ),
+                  },
+                )
+              }
+              variant="contained"
+              size="large"
+              sx={{ px: 4 }}
+            >
               Add to Cart
             </Button>
 

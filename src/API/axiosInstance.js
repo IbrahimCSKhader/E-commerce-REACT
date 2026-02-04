@@ -1,4 +1,5 @@
 import axios from "axios";
+import AuthStore from "../store/AuthStore";
 
 const instance = axios.create({
   baseURL: "https://knowledgeshop.runasp.net/api/",
@@ -10,9 +11,10 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = AuthStore.getState().token || localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+      console.log("Token added to headers", config.headers.Authorization);
     }
     return config;
   },
