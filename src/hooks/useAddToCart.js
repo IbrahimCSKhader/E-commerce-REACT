@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "../API/axiosInstance";
+import i18n from "../i18n";
 
 export default function useAddToCart() {
   const queryClient = useQueryClient();
@@ -12,7 +13,7 @@ export default function useAddToCart() {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["carts"] });
+      queryClient.invalidateQueries({ queryKey: ["carts", i18n.language] });
     },
   });
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   AppBar,
   Box,
@@ -8,6 +9,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Tooltip,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -25,8 +27,14 @@ import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import { alpha } from "@mui/material/styles"; //  للمصداقية هاي من اقتراحات شات عشان نجيب
 
 export default function Navbar() {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
+
+  const toggleLanguage = () => {
+    const newLng = i18n.language === "ar" ? "en" : "ar";
+    i18n.changeLanguage(newLng);
+  };
 
   const token = AuthStore((state) => state.token);
   const logout = AuthStore((state) => state.logout);
@@ -109,14 +117,14 @@ export default function Navbar() {
                   sx={authButtonSx}
                 >
                   <LoginOutlinedIcon sx={{ mr: 1 }} />
-                  Login
+                  {t("navbar.login")}
                 </Button>
                 <Button
                   onClick={() => navigate("/Auth/register")}
                   sx={authButtonSx}
                 >
                   <PersonAddAltOutlinedIcon sx={{ mr: 1 }} />
-                  Register
+                  {t("navbar.register")}
                 </Button>
               </>
             ) : (
@@ -129,7 +137,7 @@ export default function Navbar() {
                     mr: 2,
                   }}
                 >
-                   Welcome{" "}
+                  {t("navbar.welcome")} {""}
                   <Box
                     component="span"
                     sx={{ color: theme.palette.primary.main }}
@@ -140,7 +148,7 @@ export default function Navbar() {
 
                 <Button onClick={handleLogout} sx={authButtonSx}>
                   <LogoutOutlinedIcon sx={{ mr: 1 }} />
-                  Logout
+                  {t("navbar.logout")}
                 </Button>
               </>
             )}
@@ -164,7 +172,7 @@ export default function Navbar() {
               }}
             >
               <HomeOutlinedIcon sx={{ color: "inherit" }} />
-              Home
+              {t("navbar.home")}
             </Box>
 
             <Box
@@ -176,7 +184,7 @@ export default function Navbar() {
               }}
             >
               <Inventory2OutlinedIcon sx={{ color: "inherit" }} />
-              Products
+              {t("navbar.products")}
             </Box>
 
             <Box
@@ -188,7 +196,7 @@ export default function Navbar() {
               }}
             >
               <CategoryOutlinedIcon sx={{ color: "inherit" }} />
-              Categories
+              {t("navbar.categories")}
             </Box>
 
             {token && (
@@ -201,7 +209,7 @@ export default function Navbar() {
                 }}
               >
                 <ShoppingCartOutlinedIcon sx={{ color: "inherit" }} />
-                Cart
+                {t("navbar.cart")}
               </Box>
             )}
           </Box>
@@ -211,12 +219,37 @@ export default function Navbar() {
               variant="h6"
               sx={{ fontWeight: 800, color: theme.palette.background.paper }}
             >
-              E-commerce{" "}
+              {t("navbar.brand")}{" "}
               <Box component="span" sx={{ color: theme.palette.primary.main }}>
-                Ibrahim
+                {t("navbar.brandName")}
               </Box>
             </Typography>
           </Box>
+
+          <Tooltip title={i18n.language === "ar" ? "العربية" : "English"}>
+            <IconButton
+              onClick={toggleLanguage}
+              sx={{ ml: 1 }}
+              aria-label="toggle-language"
+              title={i18n.language === "ar" ? "العربية" : "English"}
+            >
+              <Box
+                component="img"
+                src={
+                  i18n.language === "ar"
+                    ? "/flag-for-flag-saudi-arabia.svg"
+                    : "/flag-for-flag-united-kingdom.svg"
+                }
+                alt={i18n.language === "ar" ? "علم السعودية" : "علم بريطانيا"}
+                sx={{
+                  width: 28,
+                  height: 20,
+                  objectFit: "cover",
+                  borderRadius: 0.5,
+                }}
+              />
+            </IconButton>
+          </Tooltip>
 
           {/* Mobile Menu Button */}
           <IconButton
@@ -241,7 +274,7 @@ export default function Navbar() {
             setControleTheMenu(null);
           }}
         >
-          Home
+          {t("navbar.home")}
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -249,7 +282,7 @@ export default function Navbar() {
             setControleTheMenu(null);
           }}
         >
-          Products
+          {t("navbar.products")}
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -257,7 +290,7 @@ export default function Navbar() {
             setControleTheMenu(null);
           }}
         >
-          Categories
+          {t("navbar.categories")}
         </MenuItem>
 
         {token && (
@@ -267,7 +300,7 @@ export default function Navbar() {
               setControleTheMenu(null);
             }}
           >
-            Cart
+            {t("navbar.cart")}
           </MenuItem>
         )}
 
@@ -279,7 +312,7 @@ export default function Navbar() {
                 setControleTheMenu(null);
               }}
             >
-              Login
+              {t("navbar.login")}
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -287,7 +320,7 @@ export default function Navbar() {
                 setControleTheMenu(null);
               }}
             >
-              Register
+              {t("navbar.register")}
             </MenuItem>
           </>
         ) : (
@@ -297,7 +330,7 @@ export default function Navbar() {
               setControleTheMenu(null);
             }}
           >
-            Logout
+            {t("navbar.logout")}
           </MenuItem>
         )}
       </Menu>

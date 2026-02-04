@@ -7,8 +7,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import ProductCard from "../../components/ProductComponent/ProductCard";
+import { useTranslation } from "react-i18next";
 
 export default function CategoryProducts() {
+  const { t } = useTranslation();
   const { categoryId } = useParams();
   const { state } = useLocation();
   const categoryName = state?.categoryName;
@@ -26,18 +28,17 @@ export default function CategoryProducts() {
   if (isError) {
     return (
       <Box p={3}>
-        <Alert severity="error">
-          Failed to load products for this category
-        </Alert>
+        <Alert severity="error">{t("products.failedCategoryLoad")}</Alert>
       </Box>
     );
   }
 
   return (
     <Box p={3}>
-      ddddd
       <Typography variant="h4" mb={2} sx={{ fontWeight: "bold" }}>
-        {categoryName ? categoryName : `Category ${categoryId}`}
+        {categoryName
+          ? categoryName
+          : t("products.categoryWithId", { id: categoryId })}
       </Typography>
       <Grid container justifyContent="center" spacing={3}>
         {data.map((p) => (

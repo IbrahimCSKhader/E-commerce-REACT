@@ -1,5 +1,6 @@
 import React from "react";
 import useProducts from "../../hooks/useProducts";
+import { useTranslation } from "react-i18next";
 
 // import the Card from mui
 import Card from "@mui/material/Card";
@@ -16,6 +17,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import ProductCard from "../../components/ProductComponent/ProductCard";
 export default function Products() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const { data, isLoading, isError } = useProducts();
@@ -30,7 +32,7 @@ export default function Products() {
   if (isError) {
     return (
       <Box p={3}>
-        <Alert severity="error">Failed to load categories</Alert>
+        <Alert severity="error">{t("categories.failedLoad")}</Alert>
       </Box>
     );
   }

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import axiosInstance from "../../API/axiosInstance";
@@ -64,6 +63,7 @@ export default function ResetPassword() {
     }
   };
 
+  const { t } = useTranslation();
   return (
     <Box
       component="form"
@@ -78,11 +78,11 @@ export default function ResetPassword() {
       }}
     >
       <Typography variant="h5" textAlign="center">
-        Reset Password
+        {t("auth.resetPassword")}
       </Typography>
 
       <TextField
-        label="Reset Code"
+        label={t("auth.resetCode")}
         fullWidth
         {...register("code")}
         error={!!errors.code}
@@ -90,7 +90,7 @@ export default function ResetPassword() {
       />
 
       <TextField
-        label="New Password"
+        label={t("auth.newPassword")}
         type="password"
         fullWidth
         {...register("password")}
@@ -99,7 +99,7 @@ export default function ResetPassword() {
       />
 
       <TextField
-        label="Confirm Password"
+        label={t("auth.confirmPassword")}
         type="password"
         fullWidth
         {...register("confirmPassword")}
@@ -116,7 +116,7 @@ export default function ResetPassword() {
         {isSubmitting ? (
           <CircularProgress size={24} color="inherit" />
         ) : (
-          "Reset Password"
+          t("auth.resetPassword")
         )}
       </Button>
     </Box>

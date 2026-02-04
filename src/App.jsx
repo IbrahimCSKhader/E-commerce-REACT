@@ -9,9 +9,24 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import router from "./rout.jsx";
 import AuthContextProvider from "./context/AuthContext.jsx";
+import i18n from "./i18n";
+import { useEffect } from "react";
 
 export default function App() {
   const queryClient = new QueryClient();
+
+  useEffect(() => {
+    const onLangChange = () => {
+      // Invalidate queries to refetch data in the new language
+      queryClient.invalidateQueries();
+      console.log("Language changed - invalidating queries");
+    };
+
+    i18n.on && i18n.on("languageChanged", onLangChange);
+    return () => {
+      i18n.off && i18n.off("languageChanged", onLangChange);
+    };
+  }, [queryClient]);
 
   return (
     <QueryClientProvider client={queryClient}>

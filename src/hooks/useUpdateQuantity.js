@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "../API/axiosInstance";
+import i18n from "../i18n";
 
 export default function useUpdateQuantity() {
   const queryClient = useQueryClient();
@@ -10,10 +11,11 @@ export default function useUpdateQuantity() {
     },
 
     onMutate: async ({ cartItemId, count }) => {
-      await queryClient.cancelQueries({ queryKey: ["carts"] });
-      const previous = queryClient.getQueryData(["carts"]);
+      const key = ["carts", i18n.language];
+      await queryClient.cancelQueries({ queryKey: key });
+      const previous = queryClient.getQueryData(key);
 
-      queryClient.setQueryData(["carts"], (old) => {
+      queryClient.setQueryData(key, (old) => {
         if (!old) return old;
         const items = old.items.map((it) => {
           const idMatches =
@@ -35,13 +37,14 @@ export default function useUpdateQuantity() {
     },
 
     onError: (err, variables, context) => {
+      const key = ["carts", i18n.language];
       if (context?.previous) {
-        queryClient.setQueryData(["carts"], context.previous);
+        queryClient.setQueryData(key, context.previous);
       }
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["carts"] });
+      queryClient.invalidateQueries({ queryKey: ["carts", i18n.language] });
     },
   });
 }

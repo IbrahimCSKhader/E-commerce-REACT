@@ -2,6 +2,7 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useProductDetails from "../../hooks/useProductDetails";
 import useAddToCart from "../../hooks/useAddToCart";
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Grid,
@@ -15,6 +16,7 @@ import {
 } from "@mui/material";
 
 export default function ProductDetails() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const { data, isLoading, isError } = useProductDetails(id);
@@ -30,7 +32,7 @@ export default function ProductDetails() {
   if (isError && !data) {
     return (
       <Box py={6} display="flex" justifyContent="center">
-        <Alert severity="error">Failed to load product details</Alert>
+        <Alert severity="error">{t("products.failedDetails")}</Alert>
       </Box>
     );
   }
@@ -38,7 +40,7 @@ export default function ProductDetails() {
   if (!data) {
     return (
       <Box py={6} display="flex" justifyContent="center">
-        <Alert severity="info">Product not found.</Alert>
+        <Alert severity="info">{t("products.notFound")}</Alert>
       </Box>
     );
   }
@@ -132,7 +134,7 @@ export default function ProductDetails() {
               size="large"
               sx={{ px: 4 }}
             >
-              Add to Cart
+              {t("products.addToCart")}
             </Button>
 
             <Button
@@ -140,7 +142,7 @@ export default function ProductDetails() {
               size="large"
               onClick={() => navigate(-1)}
             >
-              Back
+              {t("buttons.back")}
             </Button>
           </Box>
         </Grid>

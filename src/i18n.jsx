@@ -1,5 +1,5 @@
 import i18n from "i18next";
-import {  initReactI18next } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 
 const resources = {
   en: {
@@ -12,6 +12,9 @@ const resources = {
         register: "Register",
         cart: "Cart",
         logout: "Logout",
+        brand: "E-commerce",
+        brandName: "Ibrahim",
+        welcome: "Welcome",
       },
       footer: {
         about: "About",
@@ -29,10 +32,19 @@ const resources = {
         resetPassword: "Reset Password",
         submit: "Submit",
         cancel: "Cancel",
+        sendReset: "Send Reset Code",
+        resetCode: "Reset Code",
+        newPassword: "New Password",
+        confirmPassword: "Confirm Password",
       },
       home: {
         welcome: "Welcome to our store",
         featured: "Featured products",
+        name: "Ibrahim Abuhania",
+        studentYear: "Fourth-year Computer Science student",
+        passion:
+          "Passionate about learning modern web technologies and software development.",
+        schoolNote: "This is a React project developed for Al-Maaref Academy.",
       },
       products: {
         addToCart: "Add to Cart",
@@ -40,6 +52,10 @@ const resources = {
         price: "Price",
         category: "Category",
         searchPlaceholder: "Search products...",
+        failedCategoryLoad: "Failed to load products for this category",
+        categoryWithId: "Category {{id}}",
+        failedDetails: "Failed to load product details",
+        notFound: "Product not found.",
       },
       cart: {
         title: "Your Cart",
@@ -48,23 +64,39 @@ const resources = {
         total: "Total",
         quantity: "Quantity",
         remove: "Remove",
+        loading: "Loading...",
+        error: "Error loading cart",
+        product: "Product",
+        subtotal: "Subtotal",
+        actions: "Actions",
+        removing: "Removing...",
       },
       productCard: {
         outOfStock: "Out of stock",
+        details: "Details",
       },
       categories: {
         all: "All Categories",
+        title: "Categories",
+        failedLoad: "Failed to load categories",
+        empty: "No categories found.",
       },
       validation: {
         required: "This field is required",
         invalidEmail: "Invalid email address",
         passwordMin: "Password must be at least {{min}} characters",
       },
+      register: {
+        fullName: "Full Name",
+        userName: "User Name",
+        phoneNumber: "Phone Number",
+      },
       buttons: {
         add: "Add",
         update: "Update",
         remove: "Remove",
         loadMore: "Load more",
+        back: "Back",
       },
     },
   },
@@ -78,6 +110,9 @@ const resources = {
         register: "إنشاء حساب",
         cart: "السلة",
         logout: "تسجيل خروج",
+        brand: "متجر إلكتروني",
+        brandName: "ابراهيم",
+        welcome: "مرحبا",
       },
       footer: {
         about: "من نحن",
@@ -95,10 +130,18 @@ const resources = {
         resetPassword: "إعادة تعيين كلمة المرور",
         submit: "إرسال",
         cancel: "إلغاء",
+        sendReset: "إرسال رمز إعادة التعيين",
+        resetCode: "رمز إعادة التعيين",
+        newPassword: "كلمة المرور الجديدة",
+        confirmPassword: "تأكيد كلمة المرور",
       },
       home: {
         welcome: "مرحباً بكم في متجرنا",
         featured: "المنتجات المميزة",
+        name: "ابراهيم ابوحنية",
+        studentYear: "طالب سنة رابعة بكالوريوس علوم الحاسوب",
+        passion: "شغوف بتعلم تقنيات الويب الحديثة وتطوير البرمجيات.",
+        schoolNote: "هذا مشروع React مطور لأكاديمية المعرفة.",
       },
       products: {
         addToCart: "أضف إلى السلة",
@@ -106,6 +149,10 @@ const resources = {
         price: "السعر",
         category: "التصنيف",
         searchPlaceholder: "ابحث عن المنتجات...",
+        failedCategoryLoad: "فشل في تحميل المنتجات لهذه الفئة",
+        categoryWithId: "التصنيف {{id}}",
+        failedDetails: "فشل في تحميل تفاصيل المنتج",
+        notFound: "المنتج غير موجود.",
       },
       cart: {
         title: "سلتك",
@@ -114,23 +161,39 @@ const resources = {
         total: "الإجمالي",
         quantity: "الكمية",
         remove: "إزالة",
+        loading: "جاري التحميل...",
+        error: "حدث خطأ أثناء تحميل السلة",
+        product: "المنتج",
+        subtotal: "المجموع الجزئي",
+        actions: "الإجراءات",
+        removing: "جارٍ الحذف...",
       },
       productCard: {
         outOfStock: "غير متوفر",
+        details: "التفاصيل",
       },
       categories: {
         all: "جميع التصنيفات",
+        title: "التصنيفات",
+        failedLoad: "فشل في تحميل التصنيفات",
+        empty: "لا توجد تصنيفات.",
       },
       validation: {
         required: "هذا الحقل مطلوب",
         invalidEmail: "البريد الإلكتروني غير صالح",
         passwordMin: "يجب أن تكون كلمة المرور على الأقل {{min}} حرفًا",
       },
+      register: {
+        fullName: "الاسم الكامل",
+        userName: "اسم المستخدم",
+        phoneNumber: "رقم الهاتف",
+      },
       buttons: {
         add: "إضافة",
         update: "تحديث",
         remove: "حذف",
         loadMore: "تحميل المزيد",
+        back: "عودة",
       },
     },
   },
