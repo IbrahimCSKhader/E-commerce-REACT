@@ -23,7 +23,9 @@ import useCart from "../../hooks/useCart";
 import useRemoveFromCart from "../../hooks/useRemoveFromCart";
 import useUpdateQuantity from "../../hooks/useUpdateQuantity";
 
+import { useTranslation } from "react-i18next";
 export default function Cart() {
+  const { t, i18n } = useTranslation();
   const theme = useTheme();
   const { items, cartTotal, isLoading, isError } = useCart();
   const remove = useRemoveFromCart();
@@ -38,8 +40,8 @@ export default function Cart() {
       currency: "USD",
     }).format(v);
 
-  if (isLoading) return <Typography>Loading...</Typography>;
-  if (isError) return <Typography>Error loading cart</Typography>;
+  if (isLoading) return <Typography>{t("buttons.loading")}</Typography>;
+  if (isError) return <Typography>{t("cart.failedLoad")}</Typography>;
 
   const resolveId = (item) =>
     item.id ??
@@ -108,22 +110,22 @@ export default function Cart() {
               <TableCell
                 sx={{ color: theme.palette.primary.main, fontWeight: 700 }}
               >
-                Product
+                {t("cart.product")}
               </TableCell>
               <TableCell
                 sx={{ color: theme.palette.primary.main, fontWeight: 700 }}
               >
-                Price
+                {t("products.price")}
               </TableCell>
               <TableCell
                 sx={{ color: theme.palette.primary.main, fontWeight: 700 }}
               >
-                Quantity
+                {t("cart.quantity")}
               </TableCell>
               <TableCell
                 sx={{ color: theme.palette.primary.main, fontWeight: 700 }}
               >
-                Subtotal
+                {t("cart.subtotal")}
               </TableCell>
               <TableCell
                 sx={{
@@ -132,7 +134,7 @@ export default function Cart() {
                   textAlign: "center",
                 }}
               >
-                Actions
+                {t("cart.actions")}
               </TableCell>
             </TableRow>
           </TableHead>
@@ -147,7 +149,7 @@ export default function Cart() {
                     textAlign: "center",
                   }}
                 >
-                  Your cart is empty
+                  {t("cart.empty")}
                 </TableCell>
               </TableRow>
             ) : (
@@ -288,8 +290,8 @@ export default function Cart() {
                       }}
                     >
                       {removingId === resolveId(item)
-                        ? "Removing..."
-                        : "Remove"}
+                        ? t("cart.removing")
+                        : t("cart.remove")}
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -302,7 +304,7 @@ export default function Cart() {
                 <TableCell
                   sx={{ fontWeight: 700, color: theme.palette.primary.main }}
                 >
-                  Total
+                  {t("cart.total")}
                 </TableCell>
                 <TableCell
                   sx={{ fontWeight: 700, color: theme.palette.primary.main }}

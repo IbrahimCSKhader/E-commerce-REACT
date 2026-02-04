@@ -4,7 +4,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from "../../validation/LoginValidation";
 import { Link as RouterLink } from "react-router-dom";
 import useLogin from "../../hooks/useLogin";
+import { useTranslation } from "react-i18next";
 export default function Login() {
+  const { t, i18n } = useTranslation();
   const { loginMutation } = useLogin();
 
   const {
@@ -21,7 +23,7 @@ export default function Login() {
   return (
     <Box className="login-form">
       <Typography variant="h1" component="h1">
-        Login page
+        {t("auth.login")}
       </Typography>
 
       <Box
@@ -37,7 +39,7 @@ export default function Login() {
       >
         <TextField
           {...register("email")}
-          label="email"
+          label={t("auth.email")}
           name="email"
           fullWidth
           variant="outlined"
@@ -46,7 +48,7 @@ export default function Login() {
         />
         <TextField
           {...register("password")}
-          label="password"
+          label={t("auth.password")}
           name="password"
           fullWidth
           variant="outlined"
@@ -54,11 +56,11 @@ export default function Login() {
           helperText={errors.password?.message}
         />
         <Button variant="contained" type="submit" disabled={isSubmitting}>
-          Log in
+          {t("auth.login")}
         </Button>
         <Typography variant="body2">
           <Link component={RouterLink} to="/auth/forgot-password">
-            Forgot password?
+            {t("auth.forgotPassword")}
           </Link>
         </Typography>
       </Box>

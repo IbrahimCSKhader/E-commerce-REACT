@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import axiosInstance from "../../API/axiosInstance";
@@ -12,6 +11,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import * as yup from "yup";
+import { useTranslation } from "react-i18next";
 
 const ResetSchema = yup
   .object({
@@ -32,6 +32,7 @@ const ResetSchema = yup
   .required();
 
 export default function ResetPassword() {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   const {
@@ -78,11 +79,11 @@ export default function ResetPassword() {
       }}
     >
       <Typography variant="h5" textAlign="center">
-        Reset Password
+        {t("auth.resetPassword")}
       </Typography>
 
       <TextField
-        label="Reset Code"
+        label={t("auth.resetCode") || "Reset Code"}
         fullWidth
         {...register("code")}
         error={!!errors.code}
@@ -90,7 +91,7 @@ export default function ResetPassword() {
       />
 
       <TextField
-        label="New Password"
+        label={t("auth.newPassword") || "New Password"}
         type="password"
         fullWidth
         {...register("password")}
@@ -99,7 +100,7 @@ export default function ResetPassword() {
       />
 
       <TextField
-        label="Confirm Password"
+        label={t("auth.confirmPassword") || "Confirm Password"}
         type="password"
         fullWidth
         {...register("confirmPassword")}
@@ -116,7 +117,7 @@ export default function ResetPassword() {
         {isSubmitting ? (
           <CircularProgress size={24} color="inherit" />
         ) : (
-          "Reset Password"
+          t("auth.resetPassword")
         )}
       </Button>
     </Box>

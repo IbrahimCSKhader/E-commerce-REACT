@@ -15,7 +15,9 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import ProductCard from "../../components/ProductComponent/ProductCard";
+import { useTranslation } from "react-i18next";
 export default function Products() {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   const { data, isLoading, isError } = useProducts();
@@ -30,7 +32,7 @@ export default function Products() {
   if (isError) {
     return (
       <Box p={3}>
-        <Alert severity="error">Failed to load categories</Alert>
+        <Alert severity="error">{t("products.failedLoad")}</Alert>
       </Box>
     );
   }

@@ -1,5 +1,5 @@
 import i18n from "i18next";
-import {  initReactI18next } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 
 const resources = {
   en: {
@@ -12,6 +12,7 @@ const resources = {
         register: "Register",
         cart: "Cart",
         logout: "Logout",
+        welcome: "Welcome",
       },
       footer: {
         about: "About",
@@ -23,23 +24,35 @@ const resources = {
         email: "Email",
         password: "Password",
         name: "Name",
+        userName: "User Name",
+        phone: "Phone Number",
         login: "Login",
         register: "Register",
         forgotPassword: "Forgot Password?",
         resetPassword: "Reset Password",
+        resetCode: "Reset Code",
+        newPassword: "New Password",
+        confirmPassword: "Confirm Password",
         submit: "Submit",
         cancel: "Cancel",
       },
       home: {
-        welcome: "Welcome to our store",
+        title: "Ibrahim Abuhania",
+        student: "Fourth-year Computer Science student",
+        description:
+          "Passionate about learning modern web technologies and software development.",
         featured: "Featured products",
+        projectNote: "This is a React project developed for Al-Maaref Academy.",
       },
+
       products: {
         addToCart: "Add to Cart",
         viewDetails: "View Details",
         price: "Price",
         category: "Category",
         searchPlaceholder: "Search products...",
+        failedLoad: "Failed to load products",
+        notFound: "Product not found.",
       },
       cart: {
         title: "Your Cart",
@@ -48,12 +61,19 @@ const resources = {
         total: "Total",
         quantity: "Quantity",
         remove: "Remove",
+        product: "Product",
+        subtotal: "Subtotal",
+        actions: "Actions",
+        removing: "Removing...",
+        failedLoad: "Error loading cart",
       },
       productCard: {
         outOfStock: "Out of stock",
       },
       categories: {
         all: "All Categories",
+        failedLoad: "Failed to load categories",
+        noneFound: "No categories found.",
       },
       validation: {
         required: "This field is required",
@@ -65,6 +85,8 @@ const resources = {
         update: "Update",
         remove: "Remove",
         loadMore: "Load more",
+        back: "Back",
+        loading: "Loading...",
       },
     },
   },
@@ -78,6 +100,7 @@ const resources = {
         register: "إنشاء حساب",
         cart: "السلة",
         logout: "تسجيل خروج",
+        welcome: "مرحباً",
       },
       footer: {
         about: "من نحن",
@@ -89,6 +112,8 @@ const resources = {
         email: "البريد الإلكتروني",
         password: "كلمة المرور",
         name: "الاسم",
+        userName: "اسم المستخدم",
+        phone: "رقم الهاتف",
         login: "تسجيل الدخول",
         register: "إنشاء حساب",
         forgotPassword: "نسيت كلمة المرور؟",
@@ -97,8 +122,11 @@ const resources = {
         cancel: "إلغاء",
       },
       home: {
-        welcome: "مرحباً بكم في متجرنا",
+        title: "إبراهيم أبوحنية",
+        student: "طالب سنة رابعة علوم الحاسوب",
+        description: "شغوف بتعلّم تقنيات الويب الحديثة وتطوير البرمجيات.",
         featured: "المنتجات المميزة",
+        projectNote: "هذا مشروع React مطوّر لأكاديمية المعارف.",
       },
       products: {
         addToCart: "أضف إلى السلة",
@@ -106,6 +134,8 @@ const resources = {
         price: "السعر",
         category: "التصنيف",
         searchPlaceholder: "ابحث عن المنتجات...",
+        failedLoad: "فشل تحميل المنتجات",
+        notFound: "المنتج غير موجود.",
       },
       cart: {
         title: "سلتك",
@@ -114,23 +144,32 @@ const resources = {
         total: "الإجمالي",
         quantity: "الكمية",
         remove: "إزالة",
+        product: "المنتج",
+        subtotal: "المجموع الفرعي",
+        actions: "الإجراءات",
+        removing: "جاري الإزالة...",
       },
       productCard: {
         outOfStock: "غير متوفر",
       },
       categories: {
         all: "جميع التصنيفات",
-      },
-      validation: {
-        required: "هذا الحقل مطلوب",
-        invalidEmail: "البريد الإلكتروني غير صالح",
-        passwordMin: "يجب أن تكون كلمة المرور على الأقل {{min}} حرفًا",
+        failedLoad: "فشل تحميل التصنيفات",
+        noneFound: "لا توجد تصنيفات.",
       },
       buttons: {
         add: "إضافة",
         update: "تحديث",
         remove: "حذف",
         loadMore: "تحميل المزيد",
+        back: "عودة",
+        language: "اللغة",
+        loading: "جاري التحميل...",
+      },
+      validation: {
+        required: "هذا الحقل مطلوب",
+        invalidEmail: "البريد الإلكتروني غير صالح",
+        passwordMin: "يجب أن تكون كلمة المرور على الأقل {{min}} حرفًا",
       },
     },
   },

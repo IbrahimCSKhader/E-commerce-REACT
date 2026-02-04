@@ -10,8 +10,10 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import useCategories from "../../hooks/useCategories";
+import { useTranslation } from "react-i18next";
 
 export default function Categories() {
+  const { t, i18n } = useTranslation();
   console.log("Categories Component Rendered");
 
   const navigate = useNavigate();
@@ -28,7 +30,7 @@ export default function Categories() {
   if (isError) {
     return (
       <Box p={3}>
-        <Alert severity="error">Failed to load categories</Alert>
+        <Alert severity="error">{t("categories.failedLoad")}</Alert>
       </Box>
     );
   }
@@ -36,11 +38,11 @@ export default function Categories() {
   return (
     <Box p={3}>
       <Typography variant="h4" fontWeight="bold" mb={3}>
-        Categories
+        {t("navbar.categories")}
       </Typography>
 
       {categories.length === 0 ? (
-        <Alert severity="info">No categories found.</Alert>
+        <Alert severity="info">{t("categories.noneFound")}</Alert>
       ) : (
         <Grid container spacing={2}>
           {categories.map((cat) => (
@@ -51,14 +53,15 @@ export default function Categories() {
                     height: "100%",
                     display: "flex",
                     alignItems: "stretch",
-                    transition: "transform 200ms ease, background-color 200ms ease",
-                    '&:hover': {
+                    transition:
+                      "transform 200ms ease, background-color 200ms ease",
+                    "&:hover": {
                       backgroundColor: "rgba(255,114,76,0.08)",
-                      transform: 'translateY(-6px)'
+                      transform: "translateY(-6px)",
                     },
-                    '&:hover .category-title': {
-                      color: 'primary.main'
-                    }
+                    "&:hover .category-title": {
+                      color: "primary.main",
+                    },
                   }}
                   onClick={() =>
                     navigate(`/products/category/${cat.id}`, {
@@ -67,7 +70,13 @@ export default function Categories() {
                   }
                 >
                   <CardContent sx={{ width: "100%" }}>
-                    <Typography variant="h6" className="category-title" sx={{ transition: 'color 200ms ease' }}>{cat.name}</Typography>
+                    <Typography
+                      variant="h6"
+                      className="category-title"
+                      sx={{ transition: "color 200ms ease" }}
+                    >
+                      {cat.name}
+                    </Typography>
                   </CardContent>
                 </CardActionArea>
               </Card>

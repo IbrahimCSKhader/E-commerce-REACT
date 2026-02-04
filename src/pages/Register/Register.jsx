@@ -4,9 +4,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from "../../validation/RegisterSchema";
 import CircularProgress from "@mui/material/CircularProgress";
 import useRegister from "../../hooks/useRegister";
+import { useTranslation } from "react-i18next";
 export default function Register() {
+  const { t } = useTranslation();
   const { serverErrors, registerFormMutation } = useRegister();
-  
+
   const {
     register,
     handleSubmit,
@@ -22,7 +24,7 @@ export default function Register() {
   return (
     <Box p={3}>
       <Typography variant="h4" mb={2}>
-        Register
+        {t("auth.register")}
       </Typography>
       {serverErrors.length > 0
         ? serverErrors.map((error, index) => (
@@ -37,7 +39,7 @@ export default function Register() {
         sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 450 }}
       >
         <TextField
-          label="Full Name"
+          label={t("auth.name")}
           {...register("fullName")}
           error={!!errors.fullName}
           helperText={errors.fullName?.message}
@@ -45,7 +47,7 @@ export default function Register() {
         />
 
         <TextField
-          label="User Name"
+          label={t("auth.userName")}
           {...register("userName")}
           error={!!errors.userName}
           helperText={errors.userName?.message}
@@ -53,7 +55,7 @@ export default function Register() {
         />
 
         <TextField
-          label="Email"
+          label={t("auth.email")}
           {...register("email")}
           error={!!errors.email}
           helperText={errors.email?.message}
@@ -61,7 +63,7 @@ export default function Register() {
         />
 
         <TextField
-          label="Phone Number"
+          label={t("auth.phone")}
           {...register("phoneNumber")}
           error={!!errors.phoneNumber}
           helperText={errors.phoneNumber?.message}
@@ -69,7 +71,7 @@ export default function Register() {
         />
 
         <TextField
-          label="Password"
+          label={t("auth.password")}
           type="password"
           {...register("password")}
           error={!!errors.password}
@@ -78,7 +80,11 @@ export default function Register() {
         />
 
         <Button variant="contained" type="submit" disabled={isSubmitting}>
-          {isSubmitting ? <CircularProgress></CircularProgress> : "Register"}
+          {isSubmitting ? (
+            <CircularProgress></CircularProgress>
+          ) : (
+            t("auth.register")
+          )}
         </Button>
       </Box>
     </Box>

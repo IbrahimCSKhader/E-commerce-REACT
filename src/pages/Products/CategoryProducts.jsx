@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import useProductsByCategory from "../../hooks/useProductsByCategory";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,6 +13,7 @@ export default function CategoryProducts() {
   const { categoryId } = useParams();
   const { state } = useLocation();
   const categoryName = state?.categoryName;
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { data = [], isLoading, isError } = useProductsByCategory(categoryId);
 
@@ -26,18 +28,15 @@ export default function CategoryProducts() {
   if (isError) {
     return (
       <Box p={3}>
-        <Alert severity="error">
-          Failed to load products for this category
-        </Alert>
+        <Alert severity="error">{t("products.failedLoad")}</Alert>
       </Box>
     );
   }
 
   return (
     <Box p={3}>
-      ddddd
       <Typography variant="h4" mb={2} sx={{ fontWeight: "bold" }}>
-        {categoryName ? categoryName : `Category ${categoryId}`}
+        {categoryName ? categoryName : `${t("categories.all")} ${categoryId}`}
       </Typography>
       <Grid container justifyContent="center" spacing={3}>
         {data.map((p) => (

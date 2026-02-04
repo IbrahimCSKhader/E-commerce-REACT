@@ -9,6 +9,7 @@ import App from "./App.jsx";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme/theme.js";
+import i18n from "./i18n.jsx";
 
 createRoot(document.getElementById("root")).render(
   <>

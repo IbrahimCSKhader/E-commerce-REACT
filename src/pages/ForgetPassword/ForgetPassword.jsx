@@ -11,8 +11,10 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { LoginSchema } from "../../validation/LoginValidation";
+import { useTranslation } from "react-i18next";
 
 export default function ForgetPassword() {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const ForgotPasswordSchema = LoginSchema.pick(["email"]);
 
@@ -25,10 +27,9 @@ export default function ForgetPassword() {
   });
 
   const onSubmit = async (values) => {
-      console.log("SUBMIT CLICKED");
+    console.log("SUBMIT CLICKED");
 
     try {
-
       await axiosInstance.post("Auth/Account/SendCode", {
         email: values.email,
       });
@@ -36,7 +37,7 @@ export default function ForgetPassword() {
       localStorage.setItem("emailForReset", values.email);
 
       console.log("NAVIGATE NOW");
-navigate("/Auth/reset-password");
+      navigate("/Auth/reset-password");
     } catch (error) {
       console.error("Error sending reset email", error);
     }
@@ -56,11 +57,11 @@ navigate("/Auth/reset-password");
       }}
     >
       <Typography variant="h5" textAlign="center">
-        Forgot Password
+        {t("auth.forgotPassword")}
       </Typography>
 
       <TextField
-        label="Email"
+        label={t("auth.email")}
         fullWidth
         {...register("email")}
         error={!!errors.email}
@@ -76,7 +77,7 @@ navigate("/Auth/reset-password");
         {isSubmitting ? (
           <CircularProgress size={24} color="inherit" />
         ) : (
-          "Send Reset Code"
+          t("auth.resetPassword")
         )}
       </Button>
     </Box>

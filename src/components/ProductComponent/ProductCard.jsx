@@ -13,9 +13,11 @@ import {
   useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import useAddToCart from "../../hooks/useCart";
 function ProductCard({ product, onDetails }) {
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
   const theme = useTheme();
   const { mutate: addToCart, isLoading } = useAddToCart(() => {
     navigate("/cart");
@@ -96,7 +98,7 @@ function ProductCard({ product, onDetails }) {
             boxShadow: "none",
           }}
         >
-          Add to cart
+          {t("products.addToCart")}
         </Button>
 
         <Button
@@ -111,7 +113,7 @@ function ProductCard({ product, onDetails }) {
           }}
           sx={{ color: "rgba(255,255,255,0.86)", textTransform: "none" }}
         >
-          Details
+          {t("products.viewDetails")}
         </Button>
       </CardActions>
     </Card>

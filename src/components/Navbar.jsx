@@ -22,12 +22,17 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
+import TranslateIcon from "@mui/icons-material/Translate";
 import { alpha } from "@mui/material/styles"; //  للمصداقية هاي من اقتراحات شات عشان نجيب
-
+import { useTranslation } from "react-i18next";
 export default function Navbar() {
+  const toggleLanguage = () => {
+    const newLng = i18n.language === "ar" ? "en" : "ar";
+    i18n.changeLanguage(newLng);
+  };
   const navigate = useNavigate();
   const theme = useTheme();
-
+  const { t, i18n } = useTranslation();
   const token = AuthStore((state) => state.token);
   const logout = AuthStore((state) => state.logout);
   const user = AuthStore((state) => state.user);
@@ -109,14 +114,14 @@ export default function Navbar() {
                   sx={authButtonSx}
                 >
                   <LoginOutlinedIcon sx={{ mr: 1 }} />
-                  Login
+                  {t("navbar.login")}
                 </Button>
                 <Button
                   onClick={() => navigate("/Auth/register")}
                   sx={authButtonSx}
                 >
                   <PersonAddAltOutlinedIcon sx={{ mr: 1 }} />
-                  Register
+                  {t("navbar.register")}
                 </Button>
               </>
             ) : (
@@ -129,7 +134,7 @@ export default function Navbar() {
                     mr: 2,
                   }}
                 >
-                   Welcome{" "}
+                  {t("navbar.welcome")}{" "}
                   <Box
                     component="span"
                     sx={{ color: theme.palette.primary.main }}
@@ -140,7 +145,7 @@ export default function Navbar() {
 
                 <Button onClick={handleLogout} sx={authButtonSx}>
                   <LogoutOutlinedIcon sx={{ mr: 1 }} />
-                  Logout
+                  {t("navbar.logout")}
                 </Button>
               </>
             )}
@@ -164,7 +169,7 @@ export default function Navbar() {
               }}
             >
               <HomeOutlinedIcon sx={{ color: "inherit" }} />
-              Home
+              {t("navbar.home")}
             </Box>
 
             <Box
@@ -176,7 +181,7 @@ export default function Navbar() {
               }}
             >
               <Inventory2OutlinedIcon sx={{ color: "inherit" }} />
-              Products
+              {t("navbar.products")}
             </Box>
 
             <Box
@@ -188,7 +193,7 @@ export default function Navbar() {
               }}
             >
               <CategoryOutlinedIcon sx={{ color: "inherit" }} />
-              Categories
+              {t("navbar.categories")}
             </Box>
 
             {token && (
@@ -201,7 +206,7 @@ export default function Navbar() {
                 }}
               >
                 <ShoppingCartOutlinedIcon sx={{ color: "inherit" }} />
-                Cart
+                {t("navbar.cart")}
               </Box>
             )}
           </Box>
@@ -217,6 +222,21 @@ export default function Navbar() {
               </Box>
             </Typography>
           </Box>
+
+          {/* Language Toggle */}
+          <IconButton
+            onClick={toggleLanguage}
+            sx={{ color: theme.palette.background.paper, mr: 1 }}
+            title={t("buttons.language")}
+          >
+            <TranslateIcon />
+            <Typography
+              component="span"
+              sx={{ ml: 0.5, display: { xs: "none", sm: "inline" } }}
+            >
+              {i18n.language === "ar" ? "ع" : "EN"}
+            </Typography>
+          </IconButton>
 
           {/* Mobile Menu Button */}
           <IconButton
@@ -241,7 +261,7 @@ export default function Navbar() {
             setControleTheMenu(null);
           }}
         >
-          Home
+          {t("navbar.home")}
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -249,7 +269,7 @@ export default function Navbar() {
             setControleTheMenu(null);
           }}
         >
-          Products
+          {t("navbar.products")}
         </MenuItem>
         <MenuItem
           onClick={() => {
@@ -257,7 +277,7 @@ export default function Navbar() {
             setControleTheMenu(null);
           }}
         >
-          Categories
+          {t("navbar.categories")}
         </MenuItem>
 
         {token && (
@@ -267,7 +287,7 @@ export default function Navbar() {
               setControleTheMenu(null);
             }}
           >
-            Cart
+            {t("navbar.cart")}
           </MenuItem>
         )}
 
@@ -279,7 +299,7 @@ export default function Navbar() {
                 setControleTheMenu(null);
               }}
             >
-              Login
+              {t("navbar.login")}
             </MenuItem>
             <MenuItem
               onClick={() => {
@@ -287,7 +307,7 @@ export default function Navbar() {
                 setControleTheMenu(null);
               }}
             >
-              Register
+              {t("navbar.register")}
             </MenuItem>
           </>
         ) : (
@@ -297,7 +317,7 @@ export default function Navbar() {
               setControleTheMenu(null);
             }}
           >
-            Logout
+            {t("navbar.logout")}
           </MenuItem>
         )}
       </Menu>
