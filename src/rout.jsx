@@ -12,6 +12,7 @@ import UserContextProvider from "./context/UserContext.jsx";
 import Products from "./pages/Products/Products.jsx";
 import ProductDetails from "./pages/Products/ProductDetails";
 import CategoryProducts from "./pages/Products/CategoryProducts";
+import CheckOut from "./pages/CheckOut/CheckOut.jsx";
 import ProtectedRouter from "./protectedRouter.jsx";
 const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "products/:id",
         element: <ProductDetails />,
+      },
+      {
+        path: "checkout",
+        element: <CheckOut />,
       },
     ],
   },

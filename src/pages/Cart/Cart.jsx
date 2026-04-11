@@ -2,6 +2,7 @@ import React from "react";
 import { useTheme } from "@mui/material/styles";
 import {
   Box,
+  Stack,
   Paper,
   TableContainer,
   Table,
@@ -14,11 +15,14 @@ import {
   CircularProgress,
   IconButton,
   TextField,
+  Divider,
 } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import { useNavigate } from "react-router-dom";
 import useCart from "../../hooks/useCart";
 import useRemoveFromCart from "../../hooks/useRemoveFromCart";
 import useUpdateQuantity from "../../hooks/useUpdateQuantity";
@@ -30,7 +34,7 @@ export default function Cart() {
   const { items, cartTotal, isLoading, isError } = useCart(i18n.language);
   const remove = useRemoveFromCart(i18n.language);
   const update = useUpdateQuantity(i18n.language);
-
+  const navigate = useNavigate();
   const [removingId, setRemovingId] = React.useState(null);
   const [updatingId, setUpdatingId] = React.useState(null);
 
@@ -94,43 +98,46 @@ export default function Cart() {
   };
 
   return (
-    <Box>
+    <Box sx={{ px: { xs: 2, md: 4 }, py: 2 }}>
       <TableContainer
         component={Paper}
         sx={{
-          backgroundColor: theme.palette.card.main,
-          color: theme.palette.primary.main,
-          borderRadius: 2,
-          p: 2,
+          backgroundColor: theme.palette.background.paper,
+          color: theme.palette.text.primary,
+          borderRadius: 4,
+          p: { xs: 1.5, md: 2.5 },
+          boxShadow: "0 18px 40px rgba(42,44,65,0.08)",
+          border: "1px solid rgba(42,44,65,0.06)",
+          overflow: "hidden",
         }}
       >
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
               <TableCell
-                sx={{ color: theme.palette.primary.main, fontWeight: 700 }}
+                sx={{ color: theme.palette.text.primary, fontWeight: 800 }}
               >
                 {t("cart.product")}
               </TableCell>
               <TableCell
-                sx={{ color: theme.palette.primary.main, fontWeight: 700 }}
+                sx={{ color: theme.palette.text.primary, fontWeight: 800 }}
               >
                 {t("products.price")}
               </TableCell>
               <TableCell
-                sx={{ color: theme.palette.primary.main, fontWeight: 700 }}
+                sx={{ color: theme.palette.text.primary, fontWeight: 800 }}
               >
                 {t("cart.quantity")}
               </TableCell>
               <TableCell
-                sx={{ color: theme.palette.primary.main, fontWeight: 700 }}
+                sx={{ color: theme.palette.text.primary, fontWeight: 800 }}
               >
                 {t("cart.subtotal")}
               </TableCell>
               <TableCell
                 sx={{
-                  color: theme.palette.primary.main,
-                  fontWeight: 700,
+                  color: theme.palette.text.primary,
+                  fontWeight: 800,
                   textAlign: "center",
                 }}
               >
@@ -145,8 +152,9 @@ export default function Cart() {
                 <TableCell
                   colSpan={5}
                   sx={{
-                    color: theme.palette.card.contrastText,
+                    color: theme.palette.text.secondary,
                     textAlign: "center",
+                    py: 6,
                   }}
                 >
                   {t("cart.empty")}
@@ -157,7 +165,7 @@ export default function Cart() {
                 <TableRow
                   key={item.id}
                   sx={{
-                    "&:hover": { backgroundColor: "rgba(255,114,76,0.04)" },
+                    "&:hover": { backgroundColor: "rgba(255,114,76,0.05)" },
                     transition: "background-color 200ms ease",
                   }}
                 >
@@ -171,7 +179,7 @@ export default function Cart() {
                     >
                       <Typography
                         sx={{
-                          color: theme.palette.primary.main,
+                          color: theme.palette.text.primary,
                           fontWeight: 700,
                         }}
                       >
@@ -180,7 +188,7 @@ export default function Cart() {
                       {item.product?.description && (
                         <Typography
                           sx={{
-                            color: theme.palette.card.contrastText,
+                            color: theme.palette.text.secondary,
                             fontSize: "0.9rem",
                           }}
                         >
@@ -190,11 +198,11 @@ export default function Cart() {
                     </Box>
                   </TableCell>
 
-                  <TableCell sx={{ color: theme.palette.card.contrastText }}>
+                  <TableCell sx={{ color: theme.palette.text.secondary }}>
                     {currency(item.price ?? item.unitPrice ?? 0)}
                   </TableCell>
 
-                  <TableCell sx={{ color: theme.palette.card.contrastText }}>
+                  <TableCell sx={{ color: theme.palette.text.secondary }}>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                       <IconButton
                         size="small"
@@ -259,7 +267,7 @@ export default function Cart() {
                     </Box>
                   </TableCell>
 
-                  <TableCell sx={{ color: theme.palette.card.contrastText }}>
+                  <TableCell sx={{ color: theme.palette.text.secondary }}>
                     {currency(
                       (item.price ?? item.unitPrice ?? 0) *
                         (item.count ?? item.quantity ?? 1),
@@ -302,12 +310,12 @@ export default function Cart() {
               <TableRow>
                 <TableCell colSpan={3} sx={{ border: "none" }} />
                 <TableCell
-                  sx={{ fontWeight: 700, color: theme.palette.primary.main }}
+                  sx={{ fontWeight: 800, color: theme.palette.text.primary }}
                 >
                   {t("cart.total")}
                 </TableCell>
                 <TableCell
-                  sx={{ fontWeight: 700, color: theme.palette.primary.main }}
+                  sx={{ fontWeight: 800, color: theme.palette.primary.main }}
                 >
                   {currency(cartTotal)}
                 </TableCell>
@@ -316,6 +324,56 @@ export default function Cart() {
           </TableBody>
         </Table>
       </TableContainer>
+      <Paper
+        sx={{
+          mt: 2.5,
+          p: { xs: 2, md: 2.5 },
+          backgroundColor: theme.palette.background.paper,
+          border: "1px solid rgba(42,44,65,0.06)",
+          boxShadow: "0 18px 40px rgba(42,44,65,0.08)",
+        }}
+      >
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={1.5}
+          justifyContent="space-between"
+          alignItems={{ xs: "stretch", sm: "center" }}
+        >
+          <Box>
+            <Typography variant="subtitle2" color="text.secondary">
+              {t("cart.total")}
+            </Typography>
+            <Typography variant="h5" fontWeight={800} color="primary.main">
+              {currency(cartTotal)}
+            </Typography>
+          </Box>
+
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={1.5}
+            sx={{ width: { xs: "100%", sm: "auto" } }}
+          >
+            <Button
+              onClick={() => navigate("/products")}
+              variant="outlined"
+              disabled={items.length === 0}
+              startIcon={<ShoppingBagOutlinedIcon />}
+              sx={{ minWidth: { xs: "100%", sm: 190 }, py: 1.2 }}
+            >
+              {t("cart.continue")}
+            </Button>
+            <Button
+              onClick={() => navigate("/checkout")}
+              variant="contained"
+              disabled={items.length === 0}
+              endIcon={<ArrowForwardIcon />}
+              sx={{ minWidth: { xs: "100%", sm: 190 }, py: 1.2 }}
+            >
+              {t("cart.checkout")}
+            </Button>
+          </Stack>
+        </Stack>
+      </Paper>
     </Box>
   );
 }

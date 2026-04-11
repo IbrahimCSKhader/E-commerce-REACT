@@ -7,7 +7,7 @@ export default function useCategories() {
     queryKey: ["categories", i18n.language],
     queryFn: async () => {
       const res = await axiosInstance.get("Categories");
-      return res.data.response; // ✅
+      return res.data.response.data;
     },
   });
 }
