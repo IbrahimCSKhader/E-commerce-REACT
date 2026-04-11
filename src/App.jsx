@@ -10,10 +10,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import router from "./rout.jsx";
 import AuthContextProvider from "./context/AuthContext.jsx";
 import i18n from "./i18n";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function App() {
-  const queryClient = new QueryClient();
+  const [queryClient] = useState(() => new QueryClient());
 
   useEffect(() => {
     const onLangChange = () => {

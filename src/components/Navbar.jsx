@@ -10,12 +10,16 @@ import {
   Menu,
   MenuItem,
   Tooltip,
+  Stack,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import AuthStore from "../store/AuthStore";
+import useThemeStore from "../store/useThemeStore";
 
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
@@ -30,6 +34,8 @@ export default function Navbar() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
+  const mode = useThemeStore((state) => state.mode);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
   const toggleLanguage = () => {
     const newLng = i18n.language === "ar" ? "en" : "ar";
@@ -88,14 +94,16 @@ export default function Navbar() {
   };
 
   return (
-    <Box sx={{ p: 3, display: "flex", justifyContent: "center" }}>
+    <Box
+      sx={{ p: { xs: 1.5, md: 3 }, display: "flex", justifyContent: "center" }}
+    >
       <AppBar
         position="static"
         elevation={0}
         sx={{
           backgroundColor: theme.palette.navbar.main,
           borderRadius: 999,
-          px: 3,
+          px: { xs: 1.5, md: 3 },
           width: "100%",
           maxWidth: 1400,
         }}
@@ -154,13 +162,16 @@ export default function Navbar() {
             )}
           </Box>
 
-          <Box
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
             sx={{
               display: { xs: "none", lg: "flex" },
-              gap: 3,
               p: 1,
-              backgroundColor: "rgba(255,255,255,0.05)",
               borderRadius: 999,
+              backgroundColor: alpha(theme.palette.background.paper, 0.06),
+              border: `1px solid ${alpha(theme.palette.background.paper, 0.08)}`,
             }}
           >
             <Box
@@ -212,7 +223,7 @@ export default function Navbar() {
                 {t("navbar.cart")}
               </Box>
             )}
-          </Box>
+          </Stack>
 
           <Box sx={{ cursor: "pointer" }} onClick={() => navigate("/home")}>
             <Typography
@@ -226,34 +237,72 @@ export default function Navbar() {
             </Typography>
           </Box>
 
-          <Tooltip title={i18n.language === "ar" ? "العربية" : "English"}>
-            <IconButton
-              onClick={toggleLanguage}
-              sx={{ ml: 1 }}
-              aria-label="toggle-language"
-              title={i18n.language === "ar" ? "العربية" : "English"}
-            >
-              <Box
-                component="img"
-                src={
-                  i18n.language === "ar"
-                    ? "/flag-for-flag-saudi-arabia.svg"
-                    : "/flag-for-flag-united-kingdom.svg"
-                }
-                alt={i18n.language === "ar" ? "علم السعودية" : "علم بريطانيا"}
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={0.5}
+            sx={{
+              p: 0.5,
+              borderRadius: 999,
+              backgroundColor: alpha(theme.palette.background.paper, 0.06),
+              border: `1px solid ${alpha(theme.palette.background.paper, 0.08)}`,
+            }}
+          >
+            <Tooltip title={i18n.language === "ar" ? "العربية" : "English"}>
+              <IconButton
+                onClick={toggleLanguage}
+                aria-label="toggle-language"
+                title={i18n.language === "ar" ? "العربية" : "English"}
                 sx={{
-                  width: 28,
-                  height: 20,
-                  objectFit: "cover",
-                  borderRadius: 0.5,
+                  width: 42,
+                  height: 42,
+                  borderRadius: 999,
+                  color: theme.palette.background.paper,
                 }}
-              />
-            </IconButton>
-          </Tooltip>
+              >
+                <Box
+                  component="img"
+                  src={
+                    i18n.language === "ar"
+                      ? "/flag-for-flag-saudi-arabia.svg"
+                      : "/flag-for-flag-united-kingdom.svg"
+                  }
+                  alt={i18n.language === "ar" ? "علم السعودية" : "علم بريطانيا"}
+                  sx={{
+                    width: 24,
+                    height: 18,
+                    objectFit: "cover",
+                    borderRadius: 0.5,
+                    boxShadow: "0 0 0 1px rgba(255,255,255,0.14)",
+                  }}
+                />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title={mode === "dark" ? "Light mode" : "Dark mode"}>
+              <IconButton
+                onClick={toggleTheme}
+                aria-label="toggle-theme"
+                sx={{
+                  width: 42,
+                  height: 42,
+                  borderRadius: 999,
+                  color: theme.palette.background.paper,
+                  backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                }}
+              >
+                {mode === "dark" ? (
+                  <LightModeOutlinedIcon fontSize="small" />
+                ) : (
+                  <DarkModeOutlinedIcon fontSize="small" />
+                )}
+              </IconButton>
+            </Tooltip>
+          </Stack>
 
           {/* Mobile Menu Button */}
           <IconButton
-            sx={{ display: { xs: "flex", lg: "none" } }}
+            sx={{ display: { xs: "flex", lg: "none" }, ml: 0.5 }}
             onClick={(e) => setControleTheMenu(e.currentTarget)}
           >
             <MenuIcon sx={{ color: theme.palette.background.paper }} />
