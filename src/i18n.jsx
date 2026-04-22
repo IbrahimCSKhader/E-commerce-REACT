@@ -13,7 +13,7 @@ const resources = {
         cart: "Cart",
         logout: "Logout",
         brand: "E-commerce",
-        brandName: "Ibrahim",
+        brandName: "ابرهيم",
         welcome: "Welcome",
       },
       footer: {
@@ -40,7 +40,7 @@ const resources = {
       home: {
         welcome: "Welcome to our store",
         featured: "Featured products",
-        name: "Ibrahim Abuhania",
+        name: "ابرهيم ابوهنية",
         studentYear: "Fourth-year Computer Science student",
         passion:
           "Passionate about learning modern web technologies and software development.",
@@ -142,7 +142,7 @@ const resources = {
         cart: "السلة",
         logout: "تسجيل خروج",
         brand: "متجر إلكتروني",
-        brandName: "ابراهيم",
+        brandName: "ابرهيم",
         welcome: "مرحبا",
       },
       footer: {
@@ -169,7 +169,7 @@ const resources = {
       home: {
         welcome: "مرحباً بكم في متجرنا",
         featured: "المنتجات المميزة",
-        name: "ابراهيم ابوحنية",
+        name: "ابرهيم ابوهنية",
         studentYear: "طالب سنة رابعة بكالوريوس علوم الحاسوب",
         passion: "شغوف بتعلم تقنيات الويب الحديثة وتطوير البرمجيات.",
         schoolNote: "هذا مشروع React مطور لأكاديمية المعرفة.",

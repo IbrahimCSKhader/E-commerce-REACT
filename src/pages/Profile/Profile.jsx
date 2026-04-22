@@ -21,7 +21,7 @@ export default function Profile() {
   const location = useLocation();
   const { data, isLoading, isError, error } = useProfile();
   const orders = useProfileOrders(data);
-  const isOrdersTab = location.pathname.startsWith("/profile/orders");
+  const isOrdersView = location.pathname.startsWith("/profile/orders");
 
   const labels = {
     title: i18n.language === "ar" ? "الملف الشخصي" : "Profile",
@@ -64,18 +64,18 @@ export default function Profile() {
     );
   }
 
-  const tabButtonSx = (isActive) => ({
+  const tabButtonSx = (isSelected) => ({
     borderRadius: 999,
     px: 2.5,
     py: 1.2,
     fontWeight: 700,
     textTransform: "none",
-    color: isActive ? theme.palette.primary.contrastText : "text.primary",
-    backgroundColor: isActive
+    color: isSelected ? theme.palette.primary.contrastText : "text.primary",
+    backgroundColor: isSelected
       ? theme.palette.primary.main
       : alpha(theme.palette.primary.main, 0.08),
     "&:hover": {
-      backgroundColor: isActive
+      backgroundColor: isSelected
         ? theme.palette.primary.main
         : alpha(theme.palette.primary.main, 0.14),
     },
@@ -114,14 +114,14 @@ export default function Profile() {
             component={NavLink}
             to="/profile"
             end
-            sx={tabButtonSx(!isOrdersTab)}
+            sx={tabButtonSx(!isOrdersView)}
           >
             {labels.infoTab}
           </Button>
           <Button
             component={NavLink}
             to="/profile/orders"
-            sx={tabButtonSx(isOrdersTab)}
+            sx={tabButtonSx(isOrdersView)}
           >
             {labels.ordersTab}
           </Button>

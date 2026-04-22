@@ -50,7 +50,7 @@ export default function Home() {
               <Box
                 component="img"
                 src="/ibrahimGraduation.jpeg"
-                alt="Ibrahim Graduation"
+                alt="ابرهيم ابوهنية"
                 sx={{
                   width: "100%",
                   height: { xs: 360, md: 560 },

@@ -47,8 +47,8 @@ export default function ProfileInfo({ profile, i18n }) {
     title: i18n.language === "ar" ? "معلومات الملف الشخصي" : "Profile Information",
     subtitle:
       i18n.language === "ar"
-        ? "بيانات حسابك الحالية كما وصلتنا من الـ API وحالة الجلسة."
-        : "Your current account details from the API and active session.",
+        ? "بيانات حسابك الحالية كما وصلتنا من الـ API."
+        : "Your current account details returned from the API.",
     accountOverview:
       i18n.language === "ar" ? "نظرة عامة" : "Overview",
     accountDetails:
@@ -57,12 +57,11 @@ export default function ProfileInfo({ profile, i18n }) {
     phone: i18n.language === "ar" ? "رقم الهاتف" : "Phone",
     role: i18n.language === "ar" ? "الدور" : "Role",
     userName: i18n.language === "ar" ? "اسم المستخدم" : "Username",
-    active: i18n.language === "ar" ? "نشط" : "Active",
     blocked: i18n.language === "ar" ? "محظور" : "Blocked",
     noData:
       i18n.language === "ar"
-        ? "لا توجد تفاصيل إضافية معادة من السيرفر لهذا الحساب."
-        : "No additional account details were returned by the server.",
+        ? "لا توجد تفاصيل إضافية لهذا الحساب."
+        : "No additional account details are available for this account.",
     yes: i18n.language === "ar" ? "نعم" : "Yes",
     no: i18n.language === "ar" ? "لا" : "No",
   };
@@ -150,11 +149,13 @@ export default function ProfileInfo({ profile, i18n }) {
           </Box>
         </Stack>
 
-        <Chip
-          label={isBlocked ? labels.blocked : labels.active}
-          color={isBlocked ? "error" : "success"}
-          sx={{ fontWeight: 700 }}
-        />
+        {isBlocked ? (
+          <Chip
+            label={labels.blocked}
+            color="error"
+            sx={{ fontWeight: 700 }}
+          />
+        ) : null}
       </Paper>
 
       <Grid container spacing={3}>

@@ -114,13 +114,13 @@ export default function Navbar() {
     },
   };
 
-  const navItemActive = {
+  const selectedNavItem = {
     backgroundColor: alpha(theme.palette.primary.main, 0.16),
     color: theme.palette.primary.main,
     opacity: 1,
   };
 
-  const isActivePath = (path) =>
+  const matchesCurrentPath = (path) =>
     (path === "/home" && location.pathname === "/") ||
     location.pathname === path ||
     location.pathname.startsWith(`${path}/`);
@@ -207,7 +207,7 @@ export default function Navbar() {
                   to={item.path}
                   sx={{
                     ...navItemMainParameters,
-                    ...(isActivePath(item.path) ? navItemActive : {}),
+                    ...(matchesCurrentPath(item.path) ? selectedNavItem : {}),
                   }}
                 >
                   {item.icon}

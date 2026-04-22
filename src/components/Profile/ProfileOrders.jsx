@@ -59,7 +59,6 @@ export default function ProfileOrders({ orders, i18n }) {
     paymentMethod: i18n.language === "ar" ? "طريقة الدفع" : "Payment Method",
     createdAt: i18n.language === "ar" ? "التاريخ" : "Created At",
     items: i18n.language === "ar" ? "المنتجات" : "Items",
-    sourceApi: i18n.language === "ar" ? "من السيرفر" : "From API",
     sourceLocal:
       i18n.language === "ar" ? "محفوظ محلياً" : "Saved locally",
   };
@@ -115,12 +114,12 @@ export default function ProfileOrders({ orders, i18n }) {
                         color={resolveStatusColor(order.status)}
                         sx={{ fontWeight: 700 }}
                       />
-                      <Chip
-                        label={
-                          order.source === "api" ? labels.sourceApi : labels.sourceLocal
-                        }
-                        variant="outlined"
-                      />
+                      {order.source !== "api" ? (
+                        <Chip
+                          label={labels.sourceLocal}
+                          variant="outlined"
+                        />
+                      ) : null}
                     </Stack>
                   </Stack>
 
