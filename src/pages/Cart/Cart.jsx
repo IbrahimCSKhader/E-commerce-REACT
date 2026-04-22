@@ -15,7 +15,6 @@ import {
   CircularProgress,
   IconButton,
   TextField,
-  Divider,
 } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddIcon from "@mui/icons-material/Add";
@@ -98,7 +97,18 @@ export default function Cart() {
   };
 
   return (
-    <Box sx={{ px: { xs: 2, md: 4 }, py: 2 }}>
+    <Box sx={{ px: { xs: 0, md: 1 }, py: 2 }}>
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 800,
+          mb: 2,
+          textAlign: { xs: "center", md: "start" },
+        }}
+      >
+        {t("cart.title")}
+      </Typography>
+
       <TableContainer
         component={Paper}
         sx={{
@@ -108,7 +118,7 @@ export default function Cart() {
           p: { xs: 1.5, md: 2.5 },
           boxShadow: "0 18px 40px rgba(42,44,65,0.08)",
           border: "1px solid rgba(42,44,65,0.06)",
-          overflow: "hidden",
+          overflowX: "auto",
         }}
       >
         <Table sx={{ minWidth: 650 }}>
@@ -220,7 +230,7 @@ export default function Cart() {
                           "&.Mui-disabled": { opacity: 0.6 },
                         }}
                       >
-                        {updatingId === resolveId(item) && update.isLoading ? (
+                        {updatingId === resolveId(item) && update.isPending ? (
                           <CircularProgress size={16} color="inherit" />
                         ) : (
                           <RemoveIcon sx={{ fontSize: 18, color: "#fff" }} />
@@ -258,7 +268,7 @@ export default function Cart() {
                           "&.Mui-disabled": { opacity: 0.6 },
                         }}
                       >
-                        {updatingId === resolveId(item) && update.isLoading ? (
+                        {updatingId === resolveId(item) && update.isPending ? (
                           <CircularProgress size={16} color="inherit" />
                         ) : (
                           <AddIcon sx={{ fontSize: 18, color: "#fff" }} />

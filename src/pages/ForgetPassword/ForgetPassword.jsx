@@ -1,85 +1,87 @@
-import React from "react";
+import { Alert, Box, Button, CircularProgress, Paper, Stack, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
-import axiosInstance from "../../API/axiosInstance";
-import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useTranslation } from "react-i18next";
-import {
-  Box,
-  TextField,
-  Typography,
-  Button,
-  CircularProgress,
-} from "@mui/material";
 import { LoginSchema } from "../../validation/LoginValidation";
+import useForgotPassword from "../../hooks/useForgotPassword";
 
 export default function ForgetPassword() {
-  const navigate = useNavigate();
-  const ForgotPasswordSchema = LoginSchema.pick(["email"]);
+  const { t, i18n } = useTranslation();
+  const { forgotPasswordMutation, serverErrors } = useForgotPassword();
+  const forgotPasswordSchema = LoginSchema.pick(["email"]);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
-    resolver: yupResolver(ForgotPasswordSchema),
+    resolver: yupResolver(forgotPasswordSchema),
   });
 
-  const { t } = useTranslation();
   const onSubmit = async (values) => {
-    console.log("SUBMIT CLICKED");
-
-    try {
-      await axiosInstance.post("Auth/Account/SendCode", {
-        email: values.email,
-      });
-
-      localStorage.setItem("emailForReset", values.email);
-
-      console.log("NAVIGATE NOW");
-      navigate("/Auth/reset-password");
-    } catch (error) {
-      console.error("Error sending reset email", error);
-    }
+    await forgotPasswordMutation.mutateAsync(values.email);
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit(onSubmit)}
+    <Paper
+      elevation={0}
       sx={{
-        mt: 4,
-        width: 400,
-        mx: "auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
+        p: { xs: 3, md: 4 },
+        borderRadius: 5,
+        border: "1px solid",
+        borderColor: "divider",
       }}
     >
-      <Typography variant="h5" textAlign="center">
-        {t("auth.forgotPassword")}
-      </Typography>
+      <Stack spacing={3}>
+        <Box textAlign="center">
+          <Typography variant="h5" sx={{ fontWeight: 800 }}>
+            {t("auth.forgotPassword")}
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            {i18n.language === "ar"
+              ? "سنرسل لك رمز إعادة تعيين إلى البريد الإلكتروني الذي أدخلته."
+              : "We will send a reset code to the email address you enter."}
+          </Typography>
+        </Box>
 
-      <TextField
-        label={t("auth.email")}
-        fullWidth
-        {...register("email")}
-        error={!!errors.email}
-        helperText={errors.email?.message}
-      />
+        {serverErrors.map((errorMessage) => (
+          <Alert severity="error" key={errorMessage}>
+            {errorMessage}
+          </Alert>
+        ))}
 
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={isSubmitting}
-        sx={{ height: 45 }}
-      >
-        {isSubmitting ? (
-          <CircularProgress size={24} color="inherit" />
-        ) : (
-          t("auth.sendReset")
-        )}
-      </Button>
-    </Box>
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <TextField
+            label={t("auth.email")}
+            fullWidth
+            {...register("email")}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+          />
+
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={forgotPasswordMutation.isPending}
+            sx={{ minHeight: 48 }}
+            fullWidth
+          >
+            {forgotPasswordMutation.isPending ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              t("auth.sendReset")
+            )}
+          </Button>
+        </Box>
+      </Stack>
+    </Paper>
   );
 }

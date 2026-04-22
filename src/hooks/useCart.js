@@ -1,9 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../API/axiosInstance";
 import i18n from "../i18n";
+import useAuthStore from "../store/AuthStore";
+
 export default function useCart(lang = i18n?.language) {
+  const token = useAuthStore((state) => state.token);
+  const hasHydrated = useAuthStore((state) => state.hasHydrated);
+
   const fetchCart = async () => {
-    const res = await axiosInstance.get("/Carts");
+    const res = await axiosInstance.get("Carts");
     return res.data; // { items: [], cartTotal: number }
   };
 
@@ -11,6 +16,7 @@ export default function useCart(lang = i18n?.language) {
     queryKey: ["carts", lang],
     queryFn: fetchCart,
     staleTime: 5 * 60 * 1000,
+    enabled: hasHydrated && !!token,
   });
 
   return {

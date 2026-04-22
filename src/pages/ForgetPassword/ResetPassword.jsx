@@ -1,18 +1,12 @@
-import React from "react";
+import { Alert, Box, Button, CircularProgress, Paper, Stack, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
-import axiosInstance from "../../API/axiosInstance";
-import { useNavigate } from "react-router";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  Box,
-  TextField,
-  Typography,
-  Button,
-  CircularProgress,
-} from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import * as yup from "yup";
+import useResetPassword from "../../hooks/useResetPassword";
 
-const ResetSchema = yup
+const resetSchema = yup
   .object({
     code: yup.string().required("Reset code is required"),
     password: yup
@@ -31,94 +25,114 @@ const ResetSchema = yup
   .required();
 
 export default function ResetPassword() {
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { resetPasswordMutation, serverErrors } = useResetPassword();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
-    resolver: yupResolver(ResetSchema),
+    resolver: yupResolver(resetSchema),
   });
 
   const onSubmit = async (values) => {
-    try {
-      const email = localStorage.getItem("emailForReset");
-      if (!email) {
-        console.error("No email found for reset in localStorage");
-        navigate("/Auth/forgot-password");
-        return;
-      }
+    const email = localStorage.getItem("emailForReset");
 
-      await axiosInstance.post("/auth/Account/ResetPassword", {
-        email,
-        code: values.code,
-        newPassword: values.password,
-      });
-
-      // on success, navigate to login
-      navigate("/Auth/login");
-    } catch (error) {
-      console.error("Error resetting password", error);
+    if (!email) {
+      navigate("/Auth/forgot-password", { replace: true });
+      return;
     }
+
+    await resetPasswordMutation.mutateAsync({
+      email,
+      code: values.code,
+      password: values.password,
+    });
   };
 
-  const { t } = useTranslation();
+  const infoMessage =
+    location.state?.messageKey === "resetCodeSent"
+      ? i18n.language === "ar"
+        ? "أدخل الرمز الذي وصلك عبر البريد الإلكتروني ثم كلمة المرور الجديدة."
+        : "Enter the code you received by email and then your new password."
+      : "";
+
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit(onSubmit)}
+    <Paper
+      elevation={0}
       sx={{
-        mt: 4,
-        width: 400,
-        mx: "auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
+        p: { xs: 3, md: 4 },
+        borderRadius: 5,
+        border: "1px solid",
+        borderColor: "divider",
       }}
     >
-      <Typography variant="h5" textAlign="center">
-        {t("auth.resetPassword")}
-      </Typography>
+      <Stack spacing={3}>
+        <Typography variant="h5" textAlign="center" sx={{ fontWeight: 800 }}>
+          {t("auth.resetPassword")}
+        </Typography>
 
-      <TextField
-        label={t("auth.resetCode")}
-        fullWidth
-        {...register("code")}
-        error={!!errors.code}
-        helperText={errors.code?.message}
-      />
+        {infoMessage ? <Alert severity="info">{infoMessage}</Alert> : null}
 
-      <TextField
-        label={t("auth.newPassword")}
-        type="password"
-        fullWidth
-        {...register("password")}
-        error={!!errors.password}
-        helperText={errors.password?.message}
-      />
+        {serverErrors.map((errorMessage) => (
+          <Alert severity="error" key={errorMessage}>
+            {errorMessage}
+          </Alert>
+        ))}
 
-      <TextField
-        label={t("auth.confirmPassword")}
-        type="password"
-        fullWidth
-        {...register("confirmPassword")}
-        error={!!errors.confirmPassword}
-        helperText={errors.confirmPassword?.message}
-      />
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
+          <TextField
+            label={t("auth.resetCode")}
+            fullWidth
+            {...register("code")}
+            error={!!errors.code}
+            helperText={errors.code?.message}
+          />
 
-      <Button
-        type="submit"
-        variant="contained"
-        disabled={isSubmitting}
-        sx={{ height: 45 }}
-      >
-        {isSubmitting ? (
-          <CircularProgress size={24} color="inherit" />
-        ) : (
-          t("auth.resetPassword")
-        )}
-      </Button>
-    </Box>
+          <TextField
+            label={t("auth.newPassword")}
+            type="password"
+            fullWidth
+            {...register("password")}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+          />
+
+          <TextField
+            label={t("auth.confirmPassword")}
+            type="password"
+            fullWidth
+            {...register("confirmPassword")}
+            error={!!errors.confirmPassword}
+            helperText={errors.confirmPassword?.message}
+          />
+
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={resetPasswordMutation.isPending}
+            sx={{ minHeight: 48 }}
+            fullWidth
+          >
+            {resetPasswordMutation.isPending ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              t("auth.resetPassword")
+            )}
+          </Button>
+        </Box>
+      </Stack>
+    </Paper>
   );
 }

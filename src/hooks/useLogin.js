@@ -1,51 +1,48 @@
 import { useMutation } from "@tanstack/react-query";
-import axiosInstance from "../API/axiosInstance";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../API/axiosInstance";
 import useAuthStore from "../store/AuthStore";
-import { jwtDecode } from "jwt-decode";
+import { buildUserFromToken, extractAccessToken } from "../utils/auth";
+import { extractApiErrors } from "../utils/api";
 
 const loginRequest = async (credentials) => {
-  const res = await axiosInstance.post("Auth/Account/Login", credentials);
+  const response = await axiosInstance.post("Auth/Account/Login", credentials);
+  const accessToken = extractAccessToken(response.data);
 
-  const accessToken = res.data.accessToken;
-  const decoded = jwtDecode(accessToken);
-
-  const user = {
-    id: decoded[
-      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-    ],
-    name: decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
-    email:
-      decoded[
-        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
-      ],
-    role: decoded[
-      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-    ],
-    exp: decoded.exp,
-  };
-  console.log("Decoded JWT:", user);
+  if (!accessToken) {
+    throw new Error(
+      response.data?.message || "Login failed. Missing access token.",
+    );
+  }
 
   return {
     accessToken,
-    user,
+    user: buildUserFromToken(accessToken),
   };
 };
 
-export default function useLogin() {
+export default function useLogin(redirectTo = "/home") {
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
+  const [serverErrors, setServerErrors] = useState([]);
 
   const loginMutation = useMutation({
     mutationFn: loginRequest,
+    onMutate: () => {
+      setServerErrors([]);
+    },
     onSuccess: ({ accessToken, user }) => {
       login(accessToken, user);
-      navigate("/home");
+      navigate(redirectTo, { replace: true });
     },
     onError: (error) => {
-      console.error("Login failed:", error);
+      setServerErrors(extractApiErrors(error, "Login failed."));
     },
   });
 
-  return { loginMutation };
+  return {
+    loginMutation,
+    serverErrors,
+  };
 }

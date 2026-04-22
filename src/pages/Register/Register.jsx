@@ -1,10 +1,11 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Paper, Stack, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from "../../validation/RegisterSchema";
 import CircularProgress from "@mui/material/CircularProgress";
 import useRegister from "../../hooks/useRegister";
 import { useTranslation } from "react-i18next";
+
 export default function Register() {
   const { t } = useTranslation();
   const { serverErrors, registerFormMutation } = useRegister();
@@ -12,81 +13,106 @@ export default function Register() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(RegisterSchema),
     mode: "onBlur",
   });
+
   const registerForm = async (values) => {
     await registerFormMutation.mutateAsync(values);
   };
 
   return (
-    <Box p={3}>
-      <Typography variant="h4" mb={2}>
-        {t("auth.register")}
-      </Typography>
-      {serverErrors.length > 0
-        ? serverErrors.map((error, index) => (
-            <Typography variant="h5" key={index} color="error">
-              {error}
-            </Typography>
-          ))
-        : null}
-      <Box
-        component="form"
-        onSubmit={handleSubmit(registerForm)}
-        sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: 450 }}
-      >
-        <TextField
-          label={t("register.fullName")}
-          {...register("fullName")}
-          error={!!errors.fullName}
-          helperText={errors.fullName?.message}
-          fullWidth
-        />
+    <Paper
+      elevation={0}
+      sx={{
+        p: { xs: 3, md: 4 },
+        borderRadius: 5,
+        border: "1px solid",
+        borderColor: "divider",
+        backgroundColor: "background.paper",
+      }}
+    >
+      <Stack spacing={3}>
+        <Box textAlign="center">
+          <Typography variant="overline" color="primary.main" sx={{ fontWeight: 800 }}>
+            Knowledge Shop
+          </Typography>
+          <Typography variant="h4" sx={{ fontWeight: 800, mt: 1 }}>
+            {t("auth.register")}
+          </Typography>
+        </Box>
 
-        <TextField
-          label={t("register.userName")}
-          {...register("userName")}
-          error={!!errors.userName}
-          helperText={errors.userName?.message}
-          fullWidth
-        />
+        {serverErrors.length > 0
+          ? serverErrors.map((errorMessage) => (
+              <Alert severity="error" key={errorMessage}>
+                {errorMessage}
+              </Alert>
+            ))
+          : null}
 
-        <TextField
-          label={t("auth.email")}
-          {...register("email")}
-          error={!!errors.email}
-          helperText={errors.email?.message}
-          fullWidth
-        />
+        <Box
+          component="form"
+          onSubmit={handleSubmit(registerForm)}
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+        >
+          <TextField
+            label={t("register.fullName")}
+            {...register("fullName")}
+            error={!!errors.fullName}
+            helperText={errors.fullName?.message}
+            fullWidth
+          />
 
-        <TextField
-          label={t("register.phoneNumber")}
-          {...register("phoneNumber")}
-          error={!!errors.phoneNumber}
-          helperText={errors.phoneNumber?.message}
-          fullWidth
-        />
+          <TextField
+            label={t("register.userName")}
+            {...register("userName")}
+            error={!!errors.userName}
+            helperText={errors.userName?.message}
+            fullWidth
+          />
 
-        <TextField
-          label={t("auth.password")}
-          type="password"
-          {...register("password")}
-          error={!!errors.password}
-          helperText={errors.password?.message}
-          fullWidth
-        />
+          <TextField
+            label={t("auth.email")}
+            {...register("email")}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+            fullWidth
+          />
 
-        <Button variant="contained" type="submit" disabled={isSubmitting}>
-          {isSubmitting ? (
-            <CircularProgress></CircularProgress>
-          ) : (
-            t("auth.register")
-          )}
-        </Button>
-      </Box>
-    </Box>
+          <TextField
+            label={t("register.phoneNumber")}
+            {...register("phoneNumber")}
+            error={!!errors.phoneNumber}
+            helperText={errors.phoneNumber?.message}
+            fullWidth
+          />
+
+          <TextField
+            label={t("auth.password")}
+            type="password"
+            {...register("password")}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            fullWidth
+          />
+
+          <Button
+            variant="contained"
+            type="submit"
+            disabled={registerFormMutation.isPending}
+            fullWidth
+            sx={{ minHeight: 48 }}
+          >
+            {registerFormMutation.isPending ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              t("auth.register")
+            )}
+          </Button>
+        </Box>
+      </Stack>
+    </Paper>
   );
 }

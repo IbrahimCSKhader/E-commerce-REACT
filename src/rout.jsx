@@ -8,12 +8,16 @@ import Register from "./pages/Register/Register";
 import Categories from "./components/Categories/Categories";
 import ForgotPassword from "./pages/ForgetPassword/ForgetPassword";
 import ResetPassword from "./pages/ForgetPassword/ResetPassword";
-import UserContextProvider from "./context/UserContext.jsx";
 import Products from "./pages/Products/Products.jsx";
 import ProductDetails from "./pages/Products/ProductDetails";
 import CategoryProducts from "./pages/Products/CategoryProducts";
 import CheckOut from "./pages/CheckOut/CheckOut.jsx";
 import ProtectedRouter from "./protectedRouter.jsx";
+import PublicOnlyRoute from "./publicOnlyRoute.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
+import ProfileInfoPage from "./pages/Profile/ProfileInfoPage.jsx";
+import ProfileOrdersPage from "./pages/Profile/ProfileOrdersPage.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,21 +33,12 @@ const router = createBrowserRouter([
       },
       {
         path: "cart",
-
         element: (
           <ProtectedRouter>
             <Cart />
           </ProtectedRouter>
         ),
       },
-      // {
-      //   path: "register",
-      //   element: <Register />,
-      // },
-      // {
-      //   path: "login",
-      //   element: <Login />,
-      // },
       {
         path: "categories",
         element: <Categories />,
@@ -62,7 +57,29 @@ const router = createBrowserRouter([
       },
       {
         path: "checkout",
-        element: <CheckOut />,
+        element: (
+          <ProtectedRouter>
+            <CheckOut />
+          </ProtectedRouter>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <ProtectedRouter>
+            <Profile />
+          </ProtectedRouter>
+        ),
+        children: [
+          {
+            index: true,
+            element: <ProfileInfoPage />,
+          },
+          {
+            path: "orders",
+            element: <ProfileOrdersPage />,
+          },
+        ],
       },
     ],
   },
@@ -72,21 +89,38 @@ const router = createBrowserRouter([
     children: [
       {
         path: "login",
-        element: <Login />,
+        element: (
+          <PublicOnlyRoute>
+            <Login />
+          </PublicOnlyRoute>
+        ),
       },
       {
         path: "register",
-        element: <Register />,
+        element: (
+          <PublicOnlyRoute>
+            <Register />
+          </PublicOnlyRoute>
+        ),
       },
       {
         path: "forgot-password",
-        element: <ForgotPassword />,
+        element: (
+          <PublicOnlyRoute>
+            <ForgotPassword />
+          </PublicOnlyRoute>
+        ),
       },
       {
         path: "reset-password",
-        element: <ResetPassword />,
+        element: (
+          <PublicOnlyRoute>
+            <ResetPassword />
+          </PublicOnlyRoute>
+        ),
       },
     ],
   },
 ]);
+
 export default router;

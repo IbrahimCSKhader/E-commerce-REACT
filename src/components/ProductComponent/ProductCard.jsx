@@ -15,32 +15,38 @@ import {
 import { useNavigate } from "react-router-dom";
 import useAddToCart from "../../hooks/useAddToCart";
 import { useTranslation } from "react-i18next";
+
 function ProductCard({ product, onDetails }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const theme = useTheme();
-  const { mutate: addToCart, isLoading } = useAddToCart(() => {
-    navigate("/cart");
-  });
+  const { mutate: addToCart, isPending } = useAddToCart();
+
   return (
     <Card
       sx={{
-        width: 300,
-        mt: 5,
-        mb: 5,
+        width: "100%",
+        maxWidth: 320,
         backgroundColor: theme.palette.card?.main ?? "#2E3046",
         color: theme.palette.card?.contrastText ?? "#F4F4F8",
         borderRadius: 2,
         overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
         "&:hover": {
           transform: "translateY(-6px)",
           boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
         },
       }}
     >
-      <CardMedia component="img" height="340" image={product.image} />
+      <CardMedia
+        component="img"
+        height="340"
+        image={product.image}
+        alt={product.name}
+      />
 
-      <CardContent>
+      <CardContent sx={{ flexGrow: 1 }}>
         <Typography variant="h6" sx={{ fontWeight: 700 }}>
           {product.name}
         </Typography>
@@ -84,7 +90,7 @@ function ProductCard({ product, onDetails }) {
               productId: product.id,
             })
           }
-          disabled={isLoading}
+          disabled={isPending}
           sx={{
             borderRadius: "10px",
             padding: "10px 18px",

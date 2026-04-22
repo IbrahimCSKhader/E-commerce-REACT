@@ -7,6 +7,7 @@ const useAuthStore = create(
       token: null,
       user: null,
       isAuthenticated: false,
+      hasHydrated: false,
 
       login: (token, user) =>
         set({
@@ -18,18 +19,35 @@ const useAuthStore = create(
       setUser: (user) =>
         set((state) => ({
           ...state,
-          user,
+          user: {
+            ...state.user,
+            ...user,
+          },
         })),
+
+      finishHydration: () =>
+        set({
+          hasHydrated: true,
+        }),
 
       logout: () =>
         set({
           token: null,
           user: null,
           isAuthenticated: false,
+          hasHydrated: true,
         }),
     }),
     {
       name: "authValueInLocalStorage",
+      partialize: (state) => ({
+        token: state.token,
+        user: state.user,
+        isAuthenticated: state.isAuthenticated,
+      }),
+      onRehydrateStorage: () => (state) => {
+        state?.finishHydration();
+      },
     },
   ),
 );

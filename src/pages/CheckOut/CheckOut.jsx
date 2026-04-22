@@ -51,25 +51,30 @@ export default function CheckOut() {
       return;
     }
 
-    // Capitalize payment method for API
     const apiPaymentMethod = paymentMethod === "cash" ? "Cash" : "Visa";
 
     checkout(
-      { paymentMethod: apiPaymentMethod },
+      {
+        paymentMethod: apiPaymentMethod,
+        orderSnapshot: {
+          items,
+          cartTotal,
+        },
+      },
       {
         onSuccess: (response) => {
-          // إذا في URL (Visa)، اعمل redirect للـ payment gateway
           if (response?.url) {
             window.location.href = response.url;
-          } else {
-            // خلاف هيك (Cash)، عرض success message وروح للـ home
-            setSuccessMessage(
-              t("checkout.success") || "Checkout successful! Redirecting...",
-            );
-            setTimeout(() => {
-              navigate("/home");
-            }, 2000);
+            return;
           }
+
+          setSuccessMessage(
+            t("checkout.success") || "Checkout successful! Redirecting...",
+          );
+
+          setTimeout(() => {
+            navigate("/home");
+          }, 2000);
         },
         onError: (err) => {
           console.error("Checkout error:", err);
@@ -97,7 +102,7 @@ export default function CheckOut() {
   }
 
   return (
-    <Box sx={{ minHeight: "100vh", backgroundColor: "#f5f5f5" }}>
+    <Box sx={{ backgroundColor: "transparent" }}>
       {successMessage && (
         <Alert severity="success" sx={{ mb: 0, mx: 0, borderRadius: 0 }}>
           {successMessage}
@@ -113,7 +118,6 @@ export default function CheckOut() {
       )}
 
       <Stack spacing={0}>
-        {/* Header Section */}
         <Box
           sx={{
             py: 3,
@@ -129,7 +133,6 @@ export default function CheckOut() {
           </Typography>
         </Box>
 
-        {/* Products Section */}
         <Box
           sx={{
             py: 3,
@@ -162,7 +165,7 @@ export default function CheckOut() {
                   {items.map((item) => (
                     <TableRow key={item.id}>
                       <TableCell sx={{ fontWeight: 600, py: 2 }}>
-                        {item.productName ?? item.product?.title ?? "—"}
+                        {item.productName ?? item.product?.title ?? "--"}
                       </TableCell>
                       <TableCell align="right" sx={{ py: 2 }}>
                         {currency(item.price ?? 0)}
@@ -184,7 +187,6 @@ export default function CheckOut() {
           )}
         </Box>
 
-        {/* Total Section */}
         {items.length > 0 && (
           <Box
             sx={{
@@ -206,7 +208,6 @@ export default function CheckOut() {
           </Box>
         )}
 
-        {/* Payment Method Section */}
         {items.length > 0 && (
           <Box
             sx={{
@@ -225,7 +226,7 @@ export default function CheckOut() {
                   id="paymentMethod"
                   value={paymentMethod}
                   label={t("checkout.paymentMethod")}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  onChange={(event) => setPaymentMethod(event.target.value)}
                 >
                   <MenuItem value="cash">
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>

@@ -7,7 +7,6 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 import router from "./rout.jsx";
-import AuthContextProvider from "./context/AuthContext.jsx";
 import i18n from "./i18n";
 import { useEffect, useState } from "react";
 
@@ -29,9 +28,7 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthContextProvider>
-        <RouterProvider router={router} />
-      </AuthContextProvider>
+      <RouterProvider router={router} />
     </QueryClientProvider>
   );
 }

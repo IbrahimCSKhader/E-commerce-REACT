@@ -5,6 +5,7 @@ import useAddToCart from "../../hooks/useAddToCart";
 import { useTranslation } from "react-i18next";
 import {
   Box,
+  Container,
   Grid,
   Typography,
   CardMedia,
@@ -46,9 +47,8 @@ export default function ProductDetails() {
   }
 
   return (
-    <Box px={{ xs: 2, md: 6 }} py={6}>
+    <Container maxWidth="lg" sx={{ py: { xs: 3, md: 5 } }}>
       <Grid container spacing={6} justifyContent="center" alignItems="center">
-        {/* IMAGE */}
         <Grid item xs={12} md={6} display="flex" justifyContent="center">
           <Box
             sx={{
@@ -132,6 +132,7 @@ export default function ProductDetails() {
               }
               variant="contained"
               size="large"
+              disabled={isPending}
               sx={{ px: 4 }}
             >
               {t("products.addToCart")}
@@ -147,6 +148,6 @@ export default function ProductDetails() {
           </Box>
         </Grid>
       </Grid>
-    </Box>
+    </Container>
   );
 }

@@ -1,11 +1,10 @@
 import { Box, CircularProgress } from "@mui/material";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import useAuthStore from "./store/AuthStore";
 
-export default function ProtectedRouter({ children }) {
+export default function PublicOnlyRoute({ children }) {
   const token = useAuthStore((state) => state.token);
   const hasHydrated = useAuthStore((state) => state.hasHydrated);
-  const location = useLocation();
 
   if (!hasHydrated) {
     return (
@@ -22,17 +21,8 @@ export default function ProtectedRouter({ children }) {
     );
   }
 
-  if (!token) {
-    return (
-      <Navigate
-        to="/Auth/login"
-        replace
-        state={{
-          from: `${location.pathname}${location.search}${location.hash}`,
-          messageKey: "loginRequired",
-        }}
-      />
-    );
+  if (token) {
+    return <Navigate to="/home" replace />;
   }
 
   return children;

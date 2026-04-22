@@ -7,14 +7,14 @@ import {
   CircularProgress,
   Alert,
   CardActionArea,
+  Container,
+  Stack,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import useCategories from "../../hooks/useCategories";
 import { useTranslation } from "react-i18next";
 
 export default function Categories() {
-  console.log("Categories Component Rendered");
-
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { data: categories = [], isLoading, isError } = useCategories();
@@ -36,10 +36,15 @@ export default function Categories() {
   }
 
   return (
-    <Box p={3}>
-      <Typography variant="h4" fontWeight="bold" mb={3}>
-        {t("categories.title")}
-      </Typography>
+    <Container maxWidth="lg" sx={{ py: { xs: 2, md: 3 } }}>
+      <Stack spacing={1} sx={{ mb: 3, textAlign: { xs: "center", md: "start" } }}>
+        <Typography variant="overline" color="primary.main" sx={{ fontWeight: 800 }}>
+          Store
+        </Typography>
+        <Typography variant="h4" fontWeight="bold">
+          {t("categories.title")}
+        </Typography>
+      </Stack>
 
       {categories.length === 0 ? (
         <Alert severity="info">{t("categories.empty")}</Alert>
@@ -53,8 +58,7 @@ export default function Categories() {
                     height: "100%",
                     display: "flex",
                     alignItems: "stretch",
-                    transition:
-                      "transform 200ms ease, background-color 200ms ease",
+                    transition: "transform 200ms ease, background-color 200ms ease",
                     "&:hover": {
                       backgroundColor: "rgba(255,114,76,0.08)",
                       transform: "translateY(-6px)",
@@ -84,6 +88,6 @@ export default function Categories() {
           ))}
         </Grid>
       )}
-    </Box>
+    </Container>
   );
 }
