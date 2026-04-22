@@ -14,7 +14,6 @@ export default function useCreateCheckout() {
   return useMutation({
     mutationFn: createCheckout,
     onSuccess: () => {
-      // Invalidate cart after successful checkout
       queryClient.invalidateQueries({ queryKey: ["carts"] });
     },
     onError: (error) => {

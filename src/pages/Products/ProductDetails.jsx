@@ -1,27 +1,29 @@
-import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import useProductDetails from "../../hooks/useProductDetails";
-import useAddToCart from "../../hooks/useAddToCart";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
-  Box,
-  Container,
-  Grid,
-  Typography,
-  CardMedia,
-  Rating,
-  Button,
-  Divider,
-  CircularProgress,
   Alert,
+  Box,
+  Button,
+  CardMedia,
+  CircularProgress,
+  Container,
+  Divider,
+  Grid,
+  Rating,
+  Typography,
 } from "@mui/material";
+import useProductDetails from "../../hooks/useProductDetails";
+import useAddToCart from "../../hooks/useAddToCart";
+import ProductReviewForm from "../../components/ProductComponent/ProductReviewForm";
+import ProductReviews from "../../components/ProductComponent/ProductReviews";
 
 export default function ProductDetails() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const { data, isLoading, isError } = useProductDetails(id);
   const { mutate: addToCart, isPending } = useAddToCart();
+
   if (isLoading) {
     return (
       <Box py={6} display="flex" justifyContent="center">
@@ -83,17 +85,17 @@ export default function ProductDetails() {
           textAlign="center"
         >
           <Typography variant="h4" fontWeight={700}>
-            {data?.name ?? "—"}
+            {data?.name ?? "--"}
           </Typography>
 
           <Typography variant="h5" fontWeight={600} color="success.main" mt={1}>
-            ${data?.price ?? "—"}
+            ${data?.price ?? "--"}
           </Typography>
 
           <Box display="flex" alignItems="center" gap={1} mt={1}>
             <Rating value={data?.rate ?? 0} precision={0.5} readOnly />
             <Typography variant="body2" color="text.secondary">
-              ({data?.rate ?? 0})
+              ({data?.rate ?? 0}) | {data?.reviews?.length ?? 0}
             </Typography>
           </Box>
 
@@ -105,7 +107,7 @@ export default function ProductDetails() {
             lineHeight={1.8}
             maxWidth={450}
           >
-            {data.description}
+            {data?.description}
           </Typography>
 
           <Box
@@ -146,6 +148,19 @@ export default function ProductDetails() {
               {t("buttons.back")}
             </Button>
           </Box>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={3} sx={{ mt: { xs: 2, md: 3 } }}>
+        <Grid item xs={12} md={5}>
+          <ProductReviewForm productId={data.id} i18n={i18n} />
+        </Grid>
+        <Grid item xs={12} md={7}>
+          <ProductReviews
+            reviews={data?.reviews}
+            averageRating={data?.rate}
+            i18n={i18n}
+          />
         </Grid>
       </Grid>
     </Container>

@@ -9,7 +9,7 @@ export default function useCart(lang = i18n?.language) {
 
   const fetchCart = async () => {
     const res = await axiosInstance.get("Carts");
-    return res.data; // { items: [], cartTotal: number }
+    return res.data;
   };
 
   const query = useQuery({

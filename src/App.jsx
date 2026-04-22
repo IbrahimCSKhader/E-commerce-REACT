@@ -15,7 +15,6 @@ export default function App() {
 
   useEffect(() => {
     const onLangChange = () => {
-      // Invalidate queries to refetch data in the new language
       queryClient.invalidateQueries();
       console.log("Language changed - invalidating queries");
     };

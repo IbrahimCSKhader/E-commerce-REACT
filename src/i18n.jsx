@@ -270,20 +270,19 @@ const savedLang =
     : "en");
 
 i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
+  .use(initReactI18next)
   .init({
     resources,
     lng: savedLang,
     fallbackLng: "en",
     interpolation: {
-      escapeValue: false, // react already safes from xss
+      escapeValue: false,
     },
     react: {
       useSuspense: false,
     },
   });
 
-// set direction and lang attr on language change
 i18n.on("languageChanged", (lng) => {
   try {
     document.documentElement.lang = lng;

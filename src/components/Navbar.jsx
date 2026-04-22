@@ -164,16 +164,34 @@ export default function Navbar() {
           disableGutters
           sx={{
             minHeight: 76,
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 1.5,
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "minmax(0, 1fr) auto",
+              lg: "minmax(0, 1fr) auto minmax(0, 1fr)",
+            },
+            alignItems: "center",
+            gap: { xs: 1, lg: 2 },
           }}
         >
-          <Stack direction="row" alignItems="center" spacing={1.5}>
-            <Box sx={{ cursor: "pointer" }} onClick={() => navigate("/home")}>
+          <Box
+            sx={{
+              minWidth: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start",
+            }}
+          >
+            <Box
+              sx={{ cursor: "pointer", minWidth: 0 }}
+              onClick={() => navigate("/home")}
+            >
               <Typography
                 variant="h6"
-                sx={{ fontWeight: 800, color: theme.palette.background.paper }}
+                noWrap
+                sx={{
+                  fontWeight: 800,
+                  color: theme.palette.background.paper,
+                }}
               >
                 {t("navbar.brand")}{" "}
                 <Box
@@ -184,40 +202,51 @@ export default function Navbar() {
                 </Box>
               </Typography>
             </Box>
+          </Box>
 
-            <Stack
-              direction="row"
-              alignItems="center"
-              spacing={1}
-              sx={{
-                display: { xs: "none", lg: "flex" },
-                p: 0.75,
-                borderRadius: 999,
-                backgroundColor: alpha(theme.palette.background.paper, 0.06),
-                border: `1px solid ${alpha(
-                  theme.palette.background.paper,
-                  0.08,
-                )}`,
-              }}
-            >
-              {navItems.map((item) => (
-                <Box
-                  key={item.path}
-                  component={NavLink}
-                  to={item.path}
-                  sx={{
-                    ...navItemMainParameters,
-                    ...(matchesCurrentPath(item.path) ? selectedNavItem : {}),
-                  }}
-                >
-                  {item.icon}
-                  {item.label}
-                </Box>
-              ))}
-            </Stack>
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            sx={{
+              display: { xs: "none", lg: "flex" },
+              justifySelf: "center",
+              p: 0.75,
+              borderRadius: 999,
+              backgroundColor: alpha(theme.palette.background.paper, 0.06),
+              border: `1px solid ${alpha(
+                theme.palette.background.paper,
+                0.08,
+              )}`,
+            }}
+          >
+            {navItems.map((item) => (
+              <Box
+                key={item.path}
+                component={NavLink}
+                to={item.path}
+                sx={{
+                  ...navItemMainParameters,
+                  ...(matchesCurrentPath(item.path) ? selectedNavItem : {}),
+                }}
+              >
+                {item.icon}
+                {item.label}
+              </Box>
+            ))}
           </Stack>
 
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            sx={{
+              minWidth: 0,
+              width: "100%",
+              justifyContent: "flex-end",
+              gridColumn: { xs: 2, lg: 3 },
+            }}
+          >
             <Stack
               direction="row"
               alignItems="center"
@@ -286,7 +315,11 @@ export default function Navbar() {
             <Stack
               direction="row"
               spacing={1}
-              sx={{ display: { xs: "none", lg: "flex" } }}
+              sx={{
+                display: { xs: "none", lg: "flex" },
+                alignItems: "center",
+                minWidth: 0,
+              }}
             >
               {!hasHydrated ? null : !isLoggedIn ? (
                 <>
@@ -313,6 +346,10 @@ export default function Navbar() {
                       fontWeight: 600,
                       alignSelf: "center",
                       mr: 0.5,
+                      maxWidth: { lg: 190, xl: 280 },
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {t("navbar.welcome")}{" "}
