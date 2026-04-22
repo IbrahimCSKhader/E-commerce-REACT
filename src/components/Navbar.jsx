@@ -298,8 +298,20 @@ export default function Navbar() {
                     width: 42,
                     height: 42,
                     borderRadius: 999,
-                    color: theme.palette.background.paper,
-                    backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                    color:
+                      mode === "dark"
+                        ? "#F6F1E8"
+                        : theme.palette.navbar.contrastText,
+                    backgroundColor:
+                      mode === "dark"
+                        ? alpha("#F7F7FB", 0.1)
+                        : alpha(theme.palette.primary.main, 0.12),
+                    "&:hover": {
+                      backgroundColor:
+                        mode === "dark"
+                          ? alpha("#F7F7FB", 0.16)
+                          : alpha(theme.palette.primary.main, 0.18),
+                    },
                   }}
                 >
                   {mode === "dark" ? (

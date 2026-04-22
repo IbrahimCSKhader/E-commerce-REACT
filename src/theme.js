@@ -14,22 +14,22 @@ const buildTheme = (mode = "light") => {
       contrastText: isDark ? "#0F1220" : "#21263A",
     },
     navbar: {
-      main: isDark ? "#0B0E18" : "#22263B",
+      main: isDark ? "#1A2131" : "#22263B",
       contrastText: "#F7F7FB",
     },
     card: {
-      main: isDark ? "#1B2036" : "#2E3046",
+      main: isDark ? "#283247" : "#2E3046",
       contrastText: "#F7F7FB",
     },
     background: {
-      default: isDark ? "#0F1220" : "#F5F3EE",
-      paper: isDark ? "#161A2D" : "#FFFFFF",
+      default: isDark ? "#171E2D" : "#F5F3EE",
+      paper: isDark ? "#232C3E" : "#FFFFFF",
     },
     text: {
       primary: isDark ? "#F7F7FB" : "#21263A",
-      secondary: isDark ? "#B9BED1" : "#5F6478",
+      secondary: isDark ? "#D0D6E4" : "#5F6478",
     },
-    divider: alpha(isDark ? "#F7F7FB" : "#21263A", 0.12),
+    divider: alpha(isDark ? "#F7F7FB" : "#21263A", isDark ? 0.16 : 0.12),
   };
 
   return createTheme({
@@ -78,7 +78,7 @@ const buildTheme = (mode = "light") => {
             minHeight: "100vh",
             backgroundColor: theme.palette.background.default,
             backgroundImage: isDark
-              ? `radial-gradient(circle at top right, ${alpha("#FF724C", 0.18)}, transparent 28%), radial-gradient(circle at left center, ${alpha("#F5B942", 0.12)}, transparent 24%)`
+              ? `radial-gradient(circle at top right, ${alpha("#FF724C", 0.16)}, transparent 28%), radial-gradient(circle at left center, ${alpha("#F5B942", 0.1)}, transparent 24%)`
               : `radial-gradient(circle at top right, ${alpha("#FF724C", 0.12)}, transparent 28%), radial-gradient(circle at left center, ${alpha("#F5B942", 0.1)}, transparent 24%)`,
             backgroundAttachment: "fixed",
             color: theme.palette.text.primary,
