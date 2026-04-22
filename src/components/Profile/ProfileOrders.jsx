@@ -190,15 +190,6 @@ export default function ProfileOrders({ orders, i18n }) {
                       ))
                     )}
                   </Stack>
-
-                  {order.paymentUrl ? (
-                    <>
-                      <Divider />
-                      <Typography variant="body2" color="text.secondary">
-                        {order.paymentUrl}
-                      </Typography>
-                    </>
-                  ) : null}
                 </Stack>
               </Paper>
             ))}
