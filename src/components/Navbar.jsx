@@ -40,7 +40,6 @@ export default function Navbar() {
   const mode = useThemeStore((state) => state.mode);
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
   const token = useAuthStore((state) => state.token);
-  const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const hasHydrated = useAuthStore((state) => state.hasHydrated);
   const [menuAnchor, setMenuAnchor] = useState(null);
@@ -340,26 +339,6 @@ export default function Navbar() {
                 </>
               ) : (
                 <>
-                  <Typography
-                    sx={{
-                      color: theme.palette.background.paper,
-                      fontWeight: 600,
-                      alignSelf: "center",
-                      mr: 0.5,
-                      maxWidth: { lg: 190, xl: 280 },
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {t("navbar.welcome")}{" "}
-                    <Box
-                      component="span"
-                      sx={{ color: theme.palette.primary.main }}
-                    >
-                      {user?.fullName || user?.name || user?.userName || "User"}
-                    </Box>
-                  </Typography>
                   <Button onClick={handleLogout} sx={authButtonSx}>
                     <LogoutOutlinedIcon sx={{ mr: 1 }} />
                     {t("navbar.logout")}
